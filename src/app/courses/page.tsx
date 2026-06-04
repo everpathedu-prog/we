@@ -16,7 +16,7 @@ import { Search, Filter, BookOpen, Clock, ArrowRight } from "lucide-react";
 function CoursesContent() {
   const { openModal } = useModal();
   const searchParams = useSearchParams();
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDept, setSelectedDept] = useState("all");
 
@@ -34,7 +34,7 @@ function CoursesContent() {
       course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.shortName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.eligibility.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
     const matchesDept = selectedDept === "all" || course.departmentSlug === selectedDept;
 
     return matchesSearch && matchesDept;
@@ -51,7 +51,7 @@ function CoursesContent() {
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]" />
         <div className="max-w-7xl mx-auto px-4 md:px-8 text-center relative z-10">
           <span className="text-gold font-bold tracking-widest text-xs uppercase mb-2 block">
-            Academic Portfolio 2025
+            Academic Portfolio 2026
           </span>
           <h1 className="text-3xl md:text-5xl font-extrabold mb-4">
             Explore HITS Programmes
@@ -65,7 +65,7 @@ function CoursesContent() {
       {/* Search and Filters Strip */}
       <section className="bg-white border-b border-border py-6 sticky top-[72px] md:top-[80px] z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col lg:flex-row gap-4 items-center justify-between">
-          
+
           {/* Search Input */}
           <div className="relative w-full lg:max-w-md">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" size={18} />
@@ -82,11 +82,10 @@ function CoursesContent() {
           <div className="w-full lg:w-auto flex overflow-x-auto gap-2.5 pb-2 lg:pb-0 scrollbar-none scroll-smooth">
             <button
               onClick={() => setSelectedDept("all")}
-              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex-shrink-0 border ${
-                selectedDept === "all"
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex-shrink-0 border ${selectedDept === "all"
                   ? "bg-navy border-navy text-white"
                   : "bg-surface border-border text-text-secondary hover:bg-border-light"
-              }`}
+                }`}
             >
               All Courses
             </button>
@@ -94,11 +93,10 @@ function CoursesContent() {
               <button
                 key={dept.slug}
                 onClick={() => setSelectedDept(dept.slug)}
-                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex-shrink-0 border ${
-                  selectedDept === dept.slug
+                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex-shrink-0 border ${selectedDept === dept.slug
                     ? "bg-navy border-navy text-white"
                     : "bg-surface border-border text-text-secondary hover:bg-border-light"
-                }`}
+                  }`}
               >
                 {dept.name}
               </button>

@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${course.name} | HITS Admission 2025`,
+    title: `${course.name} | HITS Admission 2026`,
     description: `Apply for ${course.name} (${course.duration}) at Hindustan University (HITS). NAAC A++ accredited. Check eligibility: ${course.eligibility}. Get free counseling info.`,
     openGraph: {
       title: `${course.name} | HITS Admissions`,
@@ -98,7 +98,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      
+
       <CourseDetailClient course={course} />
     </>
   );

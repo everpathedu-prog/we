@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { useRouter } from "next/navigation";
-import { courses } from "@/data/courses";
+import { saveethaCourses } from "@/data/saveethaCourses";
 import { sendLeadEmails } from "@/lib/sendLeadEmails";
 
 const formSchema = zod.object({
@@ -48,12 +48,12 @@ const formSchema = zod.object({
 
 type FormData = zod.infer<typeof formSchema>;
 
-interface EnquiryFormProps {
+interface SaveethaEnquiryFormProps {
   initialCourseSlug?: string;
   onSuccess?: () => void;
 }
 
-export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormProps) {
+export function SaveethaEnquiryForm({ initialCourseSlug = "", onSuccess }: SaveethaEnquiryFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -97,7 +97,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         phone: data.phone,
         city: data.stateCity,
         target_course: data.courseInterest,
-        college_name: "Hindustan University",
+        college_name: "Saveetha University",
         father_name: data.fatherName,
         father_phone: data.fatherPhone,
       });
@@ -118,13 +118,13 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
       {errorMsg && (
-        <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">
+        <div className="p-3 bg-red-55 border border-red-200 text-red-700 text-sm rounded-lg">
           {errorMsg}
         </div>
       )}
 
       {/* Honeypot Field (Spam Trap) - Hidden from users */}
-      <div className="hidden aria-hidden='true'">
+      <div className="hidden" aria-hidden="true">
         <label htmlFor="website">Website</label>
         <input
           id="website"
@@ -254,7 +254,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
           {...register("courseInterest")}
         >
           <option value="">Select a Course</option>
-          {courses.map((course) => (
+          {saveethaCourses.map((course) => (
             <option key={course.slug} value={course.slug}>
               {course.name} ({course.duration})
             </option>
@@ -285,7 +285,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         {isSubmitting ? (
           <>
             <svg
-              className="animate-spin -ml-1 mr-3 h-5 w-5 text-text-on-gold"
+              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -312,7 +312,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
       </button>
 
       <p className="text-center text-[11px] text-text-muted mt-2">
-        By submitting, you agree to receive updates via Email & WhatsApp regarding HITS admissions. We never sell your data.
+        By submitting, you agree to receive updates via Email & WhatsApp regarding Saveetha admissions. We never sell your data.
       </p>
     </form>
   );

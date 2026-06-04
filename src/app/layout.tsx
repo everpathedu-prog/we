@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Outfit } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -17,27 +17,34 @@ const plusJakarta = Plus_Jakarta_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.everpatheducation.com"),
   title: {
-    default: "Hindustan Institute of Technology & Science (HITS) | Admissions 2025",
+    default: "Hindustan Institute of Technology & Science (HITS) | Admissions 2026",
     template: "%s | HITS — Hindustan University",
   },
   description:
     "Apply to Hindustan Institute of Technology & Science (HITS), Chennai. NAAC A++ accredited. 100+ UG, PG & Doctoral programmes in Engineering, Management, Law, Sciences, Design & more. Top placements with IBM, Google, Cognizant.",
   keywords:
-    "HITS, Hindustan University, Hindustan Institute of Technology, admissions 2025, engineering colleges Chennai, MBA Chennai, B.Tech, NAAC A++, top university Tamil Nadu",
+    "HITS, Hindustan University, Hindustan Institute of Technology, admissions 2026, engineering colleges Chennai, MBA Chennai, B.Tech, NAAC A++, top university Tamil Nadu",
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "Everpath Education — HITS",
-    title: "Hindustan Institute of Technology & Science (HITS) | Admissions 2025",
+    title: "Hindustan Institute of Technology & Science (HITS) | Admissions 2026",
     description:
-      "NAAC A++ accredited. 100+ programmes. Top placements. Apply now for 2025 admissions.",
+      "NAAC A++ accredited. 100+ programmes. Top placements. Apply now for 2026 admissions.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HITS — Hindustan University | Admissions 2025",
+    title: "HITS — Hindustan University | Admissions 2026",
     description:
       "NAAC A++ accredited. 100+ programmes. Apply now.",
   },
@@ -55,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${plusJakarta.variable} h-full`}
+      className={`${inter.variable} ${plusJakarta.variable} ${outfit.variable} h-full`}
     >
       <head>
         <meta name="theme-color" content="#003C71" />

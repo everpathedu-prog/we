@@ -12,17 +12,17 @@ import { EnquiryModal } from "@/components/EnquiryModal";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { ModalProvider, useModal } from "@/context/ModalContext";
 import { departments, courses } from "@/data/courses";
-import { 
-  Award, 
-  Calendar, 
-  Users, 
-  Briefcase, 
-  Building2, 
-  ArrowRight, 
-  CheckCircle2, 
-  GraduationCap, 
-  Star, 
-  ChevronLeft, 
+import {
+  Award,
+  Calendar,
+  Users,
+  Briefcase,
+  Building2,
+  ArrowRight,
+  CheckCircle2,
+  GraduationCap,
+  Star,
+  ChevronLeft,
   ChevronRight,
   Sparkles,
   BookOpen,
@@ -117,19 +117,19 @@ function HomeContent() {
       {/* ─── SECTION 1: HERO SECTION ─── */}
       <section className="relative text-white overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 lg:pt-48 lg:pb-28 min-h-[90vh] flex items-center">
         {/* Background Image */}
-        <Image 
-          src="/hits.jpeg" 
-          alt="Hindustan University Campus" 
-          fill 
-          priority 
-          className="object-cover object-center" 
+        <Image
+          src="/hits.jpeg"
+          alt="Hindustan University Campus"
+          fill
+          priority
+          className="object-cover object-center"
         />
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-navy/80 mix-blend-multiply" />
-        
+
         {/* Background Grid Pattern */}
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]" />
-        
+
         {/* Decorative Light Radial */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-navy-light/40 rounded-full blur-3xl opacity-30 pointer-events-none" />
 
@@ -139,7 +139,7 @@ function HomeContent() {
             <div className="lg:col-span-7 flex flex-col gap-6 text-left animate-slide-in-right">
               <div className="inline-flex items-center gap-2 bg-gold/10 text-gold-light border border-gold/20 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider w-fit">
                 <Sparkles size={14} className="animate-spin duration-3000" />
-                <span>HITS Admission 2025 Now Open</span>
+                <span>HITS Admission 2026 Now Open</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
                 Shape Your Future at <span className="gradient-text-gold">Hindustan University</span>
@@ -147,7 +147,7 @@ function HomeContent() {
               <p className="text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
                 Elevate your education at Chennai&apos;s leading NAAC A++ accredited university. 100+ programmes in Engineering, Management, Law, and Design with premium placements.
               </p>
-              
+
               {/* Trust Indicators */}
               <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6 mt-2 max-w-lg">
                 <div>
@@ -298,7 +298,7 @@ function HomeContent() {
             subtitle="Trending Fields"
             align="center"
           />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredCourses.map((course) => (
               <div
@@ -320,7 +320,7 @@ function HomeContent() {
                   <p className="text-sm text-text-secondary line-clamp-3 mb-5 leading-relaxed">
                     {course.description}
                   </p>
-                  
+
                   {/* Highlights Bullet List */}
                   <ul className="space-y-2 mb-6">
                     {course.highlights.slice(0, 3).map((hl, index) => (
@@ -331,7 +331,7 @@ function HomeContent() {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div className="bg-surface px-6 py-4 border-t border-border flex items-center justify-between gap-4">
                   <div className="flex flex-col">
                     <span className="text-[10px] text-text-muted font-semibold uppercase">Course Fee</span>
@@ -369,7 +369,7 @@ function HomeContent() {
       <section className="section gradient-navy text-white relative overflow-hidden">
         {/* Background Grid Accent */}
         <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:30px_30px]" />
-        
+
         <div className="section-container relative z-10">
           <SectionHeading
             title="Premium Career Placements"
@@ -404,7 +404,7 @@ function HomeContent() {
             <div className="text-left">
               <h3 className="text-xl font-bold mb-2">Are you ready to join over 10,000+ global alumni?</h3>
               <p className="text-sm text-white/75">
-                Our active campus placement recruitment for the 2025 batch has officially commenced.
+                Our active campus placement recruitment for the 2026 batch has officially commenced.
               </p>
             </div>
             <button
@@ -434,7 +434,7 @@ function HomeContent() {
                   {testimonials[activeTestimonial].quote}
                 </p>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-border-light pt-6 gap-4">
                 <div className="flex items-center gap-4">
                   <div className={`h-12 w-12 rounded-full bg-gradient-to-tr ${testimonials[activeTestimonial].imageBg} flex items-center justify-center text-white font-bold text-lg shadow-inner`}>

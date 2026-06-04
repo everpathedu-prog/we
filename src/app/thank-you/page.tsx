@@ -35,7 +35,7 @@ function ThankYouContent() {
           Thank you for your interest, {name}.
         </p>
         <p className="text-text-secondary text-sm leading-relaxed mb-8">
-          Your admission enquiry for the 2025 academic batch has been logged successfully. An expert HITS counselor will call you within 24 working hours to guide you on cutoff criteria, eligibility, and scholarship programs.
+          Your admission enquiry for the 2026 academic batch has been logged successfully. An expert HITS counselor will call you within 24 working hours to guide you on cutoff criteria, eligibility, and scholarship programs.
         </p>
 
         {/* Next Steps Card */}
@@ -45,7 +45,7 @@ function ThankYouContent() {
             <li className="flex gap-2.5 items-start">
               <FileText size={16} className="text-gold flex-shrink-0 mt-0.5" />
               <span>
-                <strong>Download Brochure:</strong> Check your registered email inbox. We have dispatched the HITS 2025 admission brochure.
+                <strong>Download Brochure:</strong> Check your registered email inbox. We have dispatched the HITS 2026 admission brochure.
               </span>
             </li>
             <li className="flex gap-2.5 items-start">

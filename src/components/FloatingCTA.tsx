@@ -39,7 +39,7 @@ export function FloatingCTA() {
           className="flex-[2] bg-gold text-text-on-gold font-bold rounded-lg flex items-center justify-center gap-2 py-3 hover:bg-gold-light transition-all active:scale-[0.98] animate-pulse-glow"
         >
           <Send size={18} />
-          <span>Apply Now 2025</span>
+          <span>Apply Now 2026</span>
         </button>
       </div>
 
@@ -49,7 +49,7 @@ export function FloatingCTA() {
         className="hidden md:flex fixed bottom-8 right-8 z-[150] bg-gold text-text-on-gold hover:bg-gold-light hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl rounded-full px-6 py-4 items-center gap-3 font-bold group animate-pulse-glow"
       >
         <span className="relative">
-          Apply Now 2025
+          Apply Now 2026
           <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-text-on-gold group-hover:w-full transition-all duration-300" />
         </span>
         <div className="bg-text-on-gold/10 p-1.5 rounded-full">

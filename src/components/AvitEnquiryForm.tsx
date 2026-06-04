@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { useRouter } from "next/navigation";
-import { courses } from "@/data/courses";
+import { avitCourses } from "@/data/avitCourses";
 import { sendLeadEmails } from "@/lib/sendLeadEmails";
 
 const formSchema = zod.object({
@@ -48,12 +48,12 @@ const formSchema = zod.object({
 
 type FormData = zod.infer<typeof formSchema>;
 
-interface EnquiryFormProps {
+interface AvitEnquiryFormProps {
   initialCourseSlug?: string;
   onSuccess?: () => void;
 }
 
-export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormProps) {
+export function AvitEnquiryForm({ initialCourseSlug = "", onSuccess }: AvitEnquiryFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -97,7 +97,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         phone: data.phone,
         city: data.stateCity,
         target_course: data.courseInterest,
-        college_name: "Hindustan University",
+        college_name: "Aarupadai Veedu Institute of Technology",
         father_name: data.fatherName,
         father_phone: data.fatherPhone,
       });
@@ -118,16 +118,16 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
       {errorMsg && (
-        <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">
+        <div className="p-3 bg-red-55 border border-red-200 text-red-700 text-sm rounded-lg">
           {errorMsg}
         </div>
       )}
 
       {/* Honeypot Field (Spam Trap) - Hidden from users */}
-      <div className="hidden aria-hidden='true'">
-        <label htmlFor="website">Website</label>
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="avit-website">Website</label>
         <input
-          id="website"
+          id="avit-website"
           type="text"
           {...register("website")}
           tabIndex={-1}
@@ -136,11 +136,11 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
       </div>
 
       <div>
-        <label className="form-label" htmlFor="fullName">
+        <label className="form-label" htmlFor="avit-fullName">
           Full Name <span className="text-red-500">*</span>
         </label>
         <input
-          id="fullName"
+          id="avit-fullName"
           type="text"
           placeholder="e.g. Rahul Sharma"
           className={`form-input ${errors.fullName ? "error" : ""}`}
@@ -151,11 +151,11 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="form-label" htmlFor="phone">
+          <label className="form-label" htmlFor="avit-phone">
             Mobile Number <span className="text-red-500">*</span>
           </label>
           <input
-            id="phone"
+            id="avit-phone"
             type="tel"
             placeholder="10-digit number"
             className={`form-input ${errors.phone ? "error" : ""}`}
@@ -165,11 +165,11 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         </div>
 
         <div>
-          <label className="form-label" htmlFor="email">
+          <label className="form-label" htmlFor="avit-email">
             Email Address <span className="text-red-500">*</span>
           </label>
           <input
-            id="email"
+            id="avit-email"
             type="email"
             placeholder="e.g. rahul@gmail.com"
             className={`form-input ${errors.email ? "error" : ""}`}
@@ -181,11 +181,11 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="form-label" htmlFor="fatherName">
+          <label className="form-label" htmlFor="avit-fatherName">
             Father&apos;s Name <span className="text-red-500">*</span>
           </label>
           <input
-            id="fatherName"
+            id="avit-fatherName"
             type="text"
             placeholder="e.g. Suresh Sharma"
             className={`form-input ${errors.fatherName ? "error" : ""}`}
@@ -195,11 +195,11 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         </div>
 
         <div>
-          <label className="form-label" htmlFor="fatherPhone">
+          <label className="form-label" htmlFor="avit-fatherPhone">
             Father&apos;s Mobile <span className="text-red-500">*</span>
           </label>
           <input
-            id="fatherPhone"
+            id="avit-fatherPhone"
             type="tel"
             placeholder="10-digit number"
             className={`form-input ${errors.fatherPhone ? "error" : ""}`}
@@ -211,13 +211,13 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="form-label" htmlFor="stateCity">
+          <label className="form-label" htmlFor="avit-stateCity">
             City, State <span className="text-red-500">*</span>
           </label>
           <input
-            id="stateCity"
+            id="avit-stateCity"
             type="text"
-            placeholder="e.g. Salem, Tamil Nadu"
+            placeholder="e.g. Chennai, Tamil Nadu"
             className={`form-input ${errors.stateCity ? "error" : ""}`}
             {...register("stateCity")}
           />
@@ -225,11 +225,11 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         </div>
 
         <div>
-          <label className="form-label" htmlFor="qualification">
+          <label className="form-label" htmlFor="avit-qualification">
             Current Education <span className="text-red-500">*</span>
           </label>
           <select
-            id="qualification"
+            id="avit-qualification"
             className={`form-input ${errors.qualification ? "error" : ""}`}
             {...register("qualification")}
           >
@@ -245,18 +245,18 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
       </div>
 
       <div>
-        <label className="form-label" htmlFor="courseInterest">
+        <label className="form-label" htmlFor="avit-courseInterest">
           Select Programme of Interest <span className="text-red-500">*</span>
         </label>
         <select
-          id="courseInterest"
+          id="avit-courseInterest"
           className={`form-input ${errors.courseInterest ? "error" : ""}`}
           {...register("courseInterest")}
         >
           <option value="">Select a Course</option>
-          {courses.map((course) => (
+          {avitCourses.map((course) => (
             <option key={course.slug} value={course.slug}>
-              {course.name} ({course.duration})
+              {course.name} ({course.duration}) — {course.annualFee}/yr
             </option>
           ))}
         </select>
@@ -264,13 +264,13 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
       </div>
 
       <div>
-        <label className="form-label" htmlFor="message">
+        <label className="form-label" htmlFor="avit-message">
           Questions or Comments <span className="text-gray-400">(Optional)</span>
         </label>
         <textarea
-          id="message"
+          id="avit-message"
           rows={3}
-          placeholder="Let us know if you have specific questions about eligibility, placements, fees or scholarship..."
+          placeholder="Let us know if you have specific questions about eligibility, placements, or fees..."
           className={`form-input resize-none ${errors.message ? "error" : ""}`}
           {...register("message")}
         />
@@ -285,7 +285,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         {isSubmitting ? (
           <>
             <svg
-              className="animate-spin -ml-1 mr-3 h-5 w-5 text-text-on-gold"
+              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -312,7 +312,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
       </button>
 
       <p className="text-center text-[11px] text-text-muted mt-2">
-        By submitting, you agree to receive updates via Email & WhatsApp regarding HITS admissions. We never sell your data.
+        By submitting, you agree to receive updates via Email & WhatsApp regarding AVIT admissions. We never sell your data.
       </p>
     </form>
   );

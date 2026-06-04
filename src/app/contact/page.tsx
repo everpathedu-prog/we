@@ -22,14 +22,14 @@ export default function Contact() {
     {
       icon: <Phone className="text-gold h-5 w-5" />,
       title: "Admission Helpline",
-      detail: "+91 (44) 2747 4262 / +91 (44) 2747 4260",
-      action: { label: "Call Helpline", href: "tel:+914427474262" }
+      detail: "+91 7339329264",
+      action: { label: "Call Helpline", href: "tel:+917339329264" }
     },
     {
       icon: <Mail className="text-gold h-5 w-5" />,
       title: "Admissions Desk Email",
-      detail: "admissions@hindustanuniv.ac.in",
-      action: { label: "Send Email", href: "mailto:admissions@hindustanuniv.ac.in" }
+      detail: "everpathedu@gmail.com",
+      action: { label: "Send Email", href: "mailto:everpathedu@gmail.com" }
     },
     {
       icon: <Clock className="text-gold h-5 w-5" />,
@@ -65,7 +65,7 @@ export default function Contact() {
         <section className="section bg-white">
           <div className="section-container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start text-left">
-              
+
               {/* Left Column: Details & Map */}
               <div className="lg:col-span-7 flex flex-col gap-8">
                 <div>

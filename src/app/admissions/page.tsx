@@ -38,11 +38,11 @@ export default function Admissions() {
   ];
 
   const keyDates = [
-    { event: "Online Applications Start", date: "January 15, 2025" },
-    { event: "Hindustan Admission Test (HITSEEE)", date: "April 20–28, 2025" },
-    { event: "Admissions Rank & Cutoff Release", date: "May 5, 2025" },
-    { event: "Counseling & Merit Seat Booking", date: "May 12, 2025 onwards" },
-    { event: "Academic Batch Commencement", date: "July 10, 2025" }
+    { event: "Online Applications Start", date: "January 15, 2026" },
+    { event: "Hindustan Admission Test (HITSEEE)", date: "April 20–28, 2026" },
+    { event: "Admissions Rank & Cutoff Release", date: "May 5, 2026" },
+    { event: "Counseling & Merit Seat Booking", date: "May 12, 2026 onwards" },
+    { event: "Academic Batch Commencement", date: "July 10, 2026" }
   ];
 
   const FAQs = [
@@ -76,7 +76,7 @@ export default function Admissions() {
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]" />
           <div className="max-w-7xl mx-auto px-4 md:px-8 text-center relative z-10">
             <span className="text-gold font-bold tracking-widest text-xs uppercase mb-2 block">
-              Admission Guidelines 2025
+              Admission Guidelines 2026
             </span>
             <h1 className="text-3xl md:text-5xl font-extrabold mb-4">
               Enroll at Hindustan University
@@ -91,7 +91,7 @@ export default function Admissions() {
         <section className="section bg-white">
           <div className="section-container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start text-left">
-              
+
               {/* Left Column: Step process & Dates */}
               <div className="lg:col-span-7 flex flex-col gap-8">
                 <div>
@@ -118,7 +118,7 @@ export default function Admissions() {
                 <div className="border border-border rounded-xl p-6 bg-surface/40 mt-6">
                   <h3 className="text-lg font-bold text-navy mb-4 flex items-center gap-2">
                     <Calendar size={20} className="text-gold" />
-                    <span>Important Admission Dates 2025</span>
+                    <span>Important Admission Dates 2026</span>
                   </h3>
                   <div className="divide-y divide-border">
                     {keyDates.map((item, idx) => (
@@ -168,9 +168,8 @@ export default function Admissions() {
                     </span>
                     <ChevronRight
                       size={18}
-                      className={`text-text-muted transition-transform duration-200 ${
-                        faqOpen === idx ? "transform rotate-90" : ""
-                      }`}
+                      className={`text-text-muted transition-transform duration-200 ${faqOpen === idx ? "transform rotate-90" : ""
+                        }`}
                     />
                   </button>
                   {faqOpen === idx && (

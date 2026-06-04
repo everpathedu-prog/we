@@ -37,11 +37,10 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled
             ? "glass py-3.5 shadow-md"
             : "bg-transparent py-5"
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
           {/* Logo Brand */}
@@ -59,13 +58,12 @@ export function Navbar() {
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`relative font-semibold text-sm transition-colors duration-200 py-1.5 ${
-                    isActive
+                  className={`relative font-semibold text-sm transition-colors duration-200 py-1.5 ${isActive
                       ? "text-gold"
                       : isScrolled
-                      ? "text-text-primary hover:text-navy"
-                      : "text-white/90 hover:text-white"
-                  }`}
+                        ? "text-text-primary hover:text-navy"
+                        : "text-white/90 hover:text-white"
+                    }`}
                 >
                   {link.name}
                   {isActive && (
@@ -97,11 +95,10 @@ export function Navbar() {
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2 rounded-lg transition-colors ${
-                isScrolled
+              className={`p-2 rounded-lg transition-colors ${isScrolled
                   ? "text-navy hover:bg-navy/5"
                   : "text-white hover:bg-white/10"
-              }`}
+                }`}
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -112,18 +109,16 @@ export function Navbar() {
 
       {/* Mobile Navigation Drawer */}
       <div
-        className={`fixed inset-0 z-[99] bg-navy/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
-          isMobileMenuOpen
+        className={`fixed inset-0 z-[99] bg-navy/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
       <div
-        className={`fixed top-0 bottom-0 right-0 w-[280px] z-[100] bg-white shadow-2xl p-6 flex flex-col md:hidden transition-transform duration-300 ease-out-expo ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 bottom-0 right-0 w-[280px] z-[100] bg-white shadow-2xl p-6 flex flex-col md:hidden transition-transform duration-300 ease-out-expo ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex items-center justify-between mb-8">
           <span className="font-bold text-navy tracking-tight text-lg">Menu Navigation</span>
@@ -144,9 +139,8 @@ export function Navbar() {
                 key={link.path}
                 href={link.path}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`font-semibold text-base py-2 border-b border-border-light transition-colors ${
-                  isActive ? "text-gold border-gold" : "text-text-primary hover:text-navy"
-                }`}
+                className={`font-semibold text-base py-2 border-b border-border-light transition-colors ${isActive ? "text-gold border-gold" : "text-text-primary hover:text-navy"
+                  }`}
               >
                 {link.name}
               </Link>
@@ -162,7 +156,7 @@ export function Navbar() {
             }}
             className="w-full btn-primary text-center flex items-center justify-center gap-2 py-3 rounded-lg font-bold"
           >
-            <span>Apply Online 2025</span>
+            <span>Apply Online 2026</span>
             <ArrowUpRight size={18} />
           </button>
           <a

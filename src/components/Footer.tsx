@@ -58,7 +58,7 @@ export function Footer() {
             </li>
             <li>
               <Link href="/admissions" className="hover:text-gold-light transition-colors duration-150">
-                Admission Process 2025
+                Admission Process 2026
               </Link>
             </li>
             <li>
@@ -96,13 +96,14 @@ export function Footer() {
             <li className="flex gap-3 items-center">
               <Phone size={18} className="text-gold flex-shrink-0" />
               <a href="tel:+914427474262" className="hover:text-gold-light transition-colors">
-                +91 (44) 2747 4262
+                +91 7339329264
               </a>
+
             </li>
             <li className="flex gap-3 items-center">
               <Mail size={18} className="text-gold flex-shrink-0" />
-              <a href="mailto:admissions@hindustanuniv.ac.in" className="hover:text-gold-light transition-colors">
-                admissions@hindustanuniv.ac.in
+              <a href="mailto:everpathedu@gmail.com" className="hover:text-gold-light transition-colors">
+                everpathedu@gmail.com
               </a>
             </li>
           </ul>

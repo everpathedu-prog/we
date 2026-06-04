@@ -360,3 +360,82 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--error);
   margin-top: 4px;
 }
+
+/* ============================================
+   Chettinad Institute of Technology Theme
+   ============================================ */
+
+.theme-cit {
+  /* Override brand colors to use CIT (CARE) Navy and Red */
+  --navy: #0A3D6F;
+  --navy-dark: #072B4F;
+  --navy-light: #165694;
+  --gold: #FC392D;
+  --gold-light: #FF5E54;
+  --gold-dark: #D12318;
+
+  /* Font overrides: Outfit for headings, Inter for body */
+  font-family: var(--font-inter), var(--font-plus-jakarta), sans-serif;
+}
+
+.theme-cit h1,
+.theme-cit h2,
+.theme-cit h3,
+.theme-cit h4,
+.theme-cit h5,
+.theme-cit h6 {
+  font-family: var(--font-outfit), var(--font-inter), sans-serif !important;
+}
+
+/* ============================================
+   Saveetha University Theme
+   ============================================ */
+
+.theme-saveetha {
+  /* Override brand colors to use Saveetha Blue (#2B2AA1) and Orange (#F45925) */
+  --navy: #2B2AA1;
+  --navy-dark: #1B1A7F;
+  --navy-light: #3D3CBF;
+  --gold: #F45925;
+  --gold-light: #FF7A4F;
+  --gold-dark: #C73D12;
+
+  /* Font overrides: Outfit for headings, Plus Jakarta for body */
+  font-family: var(--font-plus-jakarta), var(--font-inter), sans-serif;
+}
+
+.theme-saveetha h1,
+.theme-saveetha h2,
+.theme-saveetha h3,
+.theme-saveetha h4,
+.theme-saveetha h5,
+.theme-saveetha h6 {
+  font-family: var(--font-outfit), var(--font-inter), sans-serif !important;
+}
+
+/* ============================================
+   Aarupadai Veedu Institute of Technology Theme
+   ============================================ */
+
+.theme-avit {
+  /* Override brand colors to use AVIT Navy (#1D2A57) and Red (#C8102E) */
+  --navy: #1D2A57;
+  --navy-dark: #101938;
+  --navy-light: #2A3B7C;
+  --gold: #C8102E;
+  --gold-light: #E32B45;
+  --gold-dark: #91091F;
+
+  /* Font overrides: Outfit for headings, Inter for body */
+  font-family: var(--font-inter), var(--font-plus-jakarta), sans-serif;
+}
+
+.theme-avit h1,
+.theme-avit h2,
+.theme-avit h3,
+.theme-avit h4,
+.theme-avit h5,
+.theme-avit h6 {
+  font-family: var(--font-outfit), var(--font-inter), sans-serif !important;
+}
+
