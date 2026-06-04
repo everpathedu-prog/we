@@ -418,13 +418,20 @@ h1, h2, h3, h4, h5, h6 {
    ============================================ */
 
 .theme-avit {
-  /* Override brand colors to use AVIT Navy (#1D2A57) and Red (#C8102E) */
-  --navy: #1D2A57;
-  --navy-dark: #101938;
-  --navy-light: #2A3B7C;
-  --gold: #C8102E;
-  --gold-light: #E32B45;
-  --gold-dark: #91091F;
+  /* Override brand colors to use vibrant, high-contrast AVIT Blue and Red */
+  --navy: #004E98;      /* Vibrant Royal Blue */
+  --navy-dark: #001A33; /* Rich Deep Navy (dark background) */
+  --navy-light: #3A86FF;/* Vivid Azure Blue */
+  --gold: #E63946;      /* Bright Vibrant Coral Red */
+  --gold-light: #FF5E6C;/* Energetic Light Red */
+  --gold-dark: #C1121F; /* Premium Deep Ruby Red */
+  --text-on-gold: #FFFFFF; /* High contrast text on red buttons */
+  --shadow-glow: 0 0 20px rgba(230, 57, 70, 0.45);
+  
+  --shadow-sm: 0 1px 3px rgba(0, 78, 152, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 78, 152, 0.1);
+  --shadow-lg: 0 8px 30px rgba(0, 78, 152, 0.15);
+  --shadow-xl: 0 16px 50px rgba(0, 78, 152, 0.2);
 
   /* Font overrides: Outfit for headings, Inter for body */
   font-family: var(--font-inter), var(--font-plus-jakarta), sans-serif;
@@ -438,4 +445,349 @@ h1, h2, h3, h4, h5, h6 {
 .theme-avit h6 {
   font-family: var(--font-outfit), var(--font-inter), sans-serif !important;
 }
+
+/* ========================================================
+   Light & Bright Theme Overrides for AVIT and CIT Pages
+   ======================================================== */
+
+/* 1. Top Utility Bar */
+.theme-avit .bg-navy-dark,
+.theme-cit .bg-navy-dark {
+  background-color: #F8F9FC !important;
+  color: #334155 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.theme-avit .bg-navy-dark a,
+.theme-cit .bg-navy-dark a {
+  color: #334155 !important;
+}
+
+.theme-avit .bg-navy-dark a:hover,
+.theme-cit .bg-navy-dark a:hover {
+  color: var(--gold) !important;
+}
+
+.theme-avit .bg-navy-dark .text-gold,
+.theme-cit .bg-navy-dark .text-gold,
+.theme-avit .bg-navy-dark .text-gold-light,
+.theme-cit .bg-navy-dark .text-gold-light {
+  color: var(--gold) !important;
+}
+
+/* 2. Header / Navbar */
+.theme-avit header.bg-navy,
+.theme-avit header.bg-navy\/95,
+.theme-cit header.bg-navy,
+.theme-cit header.bg-navy\/95 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-avit header nav a,
+.theme-cit header nav a {
+  color: #1E293B !important;
+}
+
+.theme-avit header nav a:hover,
+.theme-cit header nav a:hover {
+  color: var(--gold) !important;
+}
+
+.theme-avit header button:not(.bg-gold),
+.theme-cit header button:not(.bg-gold) {
+  color: #1E293B !important;
+}
+
+.theme-avit header button:not(.bg-gold):hover,
+.theme-cit header button:not(.bg-gold):hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Mobile Menu Hamburger Trigger for light theme */
+.theme-avit header .text-white,
+.theme-cit header .text-white {
+  color: #1E293B !important;
+}
+
+/* Mobile Drawer */
+.theme-avit div.fixed.bg-navy,
+.theme-cit div.fixed.bg-navy {
+  background-color: #FFFFFF !important;
+  border-left: 1px solid #E2E8F0 !important;
+}
+
+.theme-avit div.fixed.bg-navy span.text-white,
+.theme-cit div.fixed.bg-navy span.text-white {
+  color: #0F172A !important;
+}
+
+.theme-avit div.fixed.bg-navy button,
+.theme-cit div.fixed.bg-navy button {
+  color: #475569 !important;
+}
+
+.theme-avit div.fixed.bg-navy button:hover,
+.theme-cit div.fixed.bg-navy button:hover {
+  background-color: #F1F5F9 !important;
+}
+
+.theme-avit div.fixed.bg-navy nav a,
+.theme-cit div.fixed.bg-navy nav a {
+  color: #334155 !important;
+  border-bottom-color: #F1F5F9 !important;
+}
+
+.theme-avit div.fixed.bg-navy nav a:hover,
+.theme-cit div.fixed.bg-navy nav a:hover {
+  color: var(--gold) !important;
+}
+
+.theme-avit div.fixed.bg-navy a.border-white\/20,
+.theme-cit div.fixed.bg-navy a.border-white\/20 {
+  border-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+.theme-avit div.fixed.bg-navy a.border-white\/20:hover,
+.theme-cit div.fixed.bg-navy a.border-white\/20:hover {
+  background-color: #F1F5F9 !important;
+}
+
+/* 3. Hero Section (Light & Bright Overlay) */
+.theme-avit #home div.absolute.inset-0.bg-gradient-to-r,
+.theme-cit #home div.absolute.inset-0.bg-gradient-to-r {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.9) 60%, rgba(255, 255, 255, 0.75) 100%) !important;
+  mix-blend-mode: normal !important;
+}
+
+.theme-avit #home div.absolute.opacity-10,
+.theme-cit #home div.absolute.opacity-10 {
+  background-image: linear-gradient(to right, #E2E8F0 1px, transparent 1px), linear-gradient(to bottom, #E2E8F0 1px, transparent 1px) !important;
+  opacity: 0.15 !important;
+}
+
+.theme-avit #home h1,
+.theme-cit #home h1 {
+  color: #0F172A !important;
+}
+
+.theme-avit #home p,
+.theme-cit #home p {
+  color: #334155 !important;
+}
+
+.theme-avit #home .text-white\/75,
+.theme-cit #home .text-white\/75 {
+  color: #64748B !important;
+}
+
+.theme-avit #home .border-white\/20,
+.theme-cit #home .border-white\/20 {
+  border-color: #E2E8F0 !important;
+}
+
+.theme-avit #home .bg-white\/10,
+.theme-cit #home .bg-white\/10 {
+  background-color: rgba(0, 78, 152, 0.06) !important;
+  border-color: rgba(0, 78, 152, 0.12) !important;
+}
+
+/* 4. Trust Bar (Light Theme) */
+.theme-avit .bg-navy.border-y,
+.theme-cit .bg-navy.border-y {
+  background-color: #F8F9FC !important;
+  border-top: 1px solid #E2E8F0 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+.theme-avit .bg-navy.border-y h4,
+.theme-cit .bg-navy.border-y h4 {
+  color: #1E293B !important;
+}
+
+.theme-avit .bg-navy.border-y p.text-white\/60,
+.theme-cit .bg-navy.border-y p.text-white\/60 {
+  color: #64748B !important;
+}
+
+.theme-avit .bg-navy.border-y div.bg-white\/5,
+.theme-cit .bg-navy.border-y div.bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.theme-avit .bg-navy.border-y div.bg-white\/5 svg,
+.theme-cit .bg-navy.border-y div.bg-white\/5 svg {
+  color: var(--gold) !important;
+}
+
+.theme-avit .bg-navy.border-y div.hover\:bg-white\/5:hover,
+.theme-cit .bg-navy.border-y div.hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 5. Placement CTA Banner */
+.theme-avit section.bg-navy.text-white,
+.theme-cit section.bg-navy.text-white {
+  background: linear-gradient(135deg, #F8F9FC 0%, #EEF2F6 100%) !important;
+  color: #1E293B !important;
+  border-top: 1px solid #E2E8F0 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.theme-avit section.bg-navy.text-white h2,
+.theme-cit section.bg-navy.text-white h2 {
+  color: #0F172A !important;
+}
+
+.theme-avit section.bg-navy.text-white p,
+.theme-cit section.bg-navy.text-white p {
+  color: #475569 !important;
+}
+
+.theme-avit section.bg-navy.text-white span.bg-white\/10,
+.theme-cit section.bg-navy.text-white span.bg-white\/10 {
+  background-color: rgba(0, 78, 152, 0.08) !important;
+  border-color: rgba(0, 78, 152, 0.15) !important;
+  color: var(--gold) !important;
+}
+
+/* 6. Footer (Light Theme) */
+.theme-avit footer.bg-navy-dark,
+.theme-cit footer.bg-navy-dark {
+  background-color: #FFFFFF !important;
+  color: #334155 !important;
+  border-top: 1px solid #E2E8F0 !important;
+}
+
+.theme-avit footer h4.text-gold,
+.theme-cit footer h4.text-gold {
+  color: var(--gold) !important;
+}
+
+.theme-avit footer ul,
+.theme-cit footer ul {
+  color: #334155 !important;
+}
+
+.theme-avit footer ul a,
+.theme-cit footer ul a {
+  color: #475569 !important;
+}
+
+.theme-avit footer ul a:hover,
+.theme-cit footer ul a:hover {
+  color: var(--gold-light) !important;
+}
+
+.theme-avit footer .text-white\/70,
+.theme-cit footer .text-white\/70,
+.theme-avit footer .text-white\/60,
+.theme-cit footer .text-white\/60,
+.theme-avit footer .text-white\/55,
+.theme-cit footer .text-white\/55 {
+  color: #64748B !important;
+}
+
+.theme-avit footer .bg-white\/5,
+.theme-cit footer .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+.theme-avit footer svg.text-gold,
+.theme-cit footer svg.text-gold {
+  color: var(--gold) !important;
+}
+
+.theme-avit footer .border-white\/10,
+.theme-cit footer .border-white\/10 {
+  border-color: #F1F5F9 !important;
+}
+
+/* 7. Modal Header */
+.theme-avit .relative.bg-white div.bg-navy,
+.theme-cit .relative.bg-white div.bg-navy {
+  background-color: #F8F9FC !important;
+  color: #0F172A !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.theme-avit .relative.bg-white div.bg-navy h3,
+.theme-cit .relative.bg-white div.bg-navy h3 {
+  color: #0F172A !important;
+}
+
+.theme-avit .relative.bg-white div.bg-navy p.text-white\/80,
+.theme-cit .relative.bg-white div.bg-navy p.text-white\/80 {
+  color: #475569 !important;
+}
+
+.theme-avit .relative.bg-white div.bg-navy button,
+.theme-cit .relative.bg-white div.bg-navy button {
+  color: #64748B !important;
+}
+
+.theme-avit .relative.bg-white div.bg-navy button:hover,
+.theme-cit .relative.bg-white div.bg-navy button:hover {
+  color: #0F172A !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 8. Additional Light Theme Overrides (No Dark Backgrounds) */
+
+/* Table Header overrides for AVIT page */
+.theme-avit table thead tr,
+.theme-cit table thead tr {
+  background-color: #F1F5F9 !important;
+  border-bottom: 2px solid #E2E8F0 !important;
+}
+
+.theme-avit table thead tr th,
+.theme-cit table thead tr th {
+  color: #0F172A !important;
+  font-weight: 700 !important;
+}
+
+/* Button overrides (Apply buttons in courses list should use brand accent red instead of navy) */
+.theme-avit button.bg-navy,
+.theme-cit button.bg-navy {
+  background-color: var(--gold) !important;
+  color: #FFFFFF !important;
+}
+
+.theme-avit button.bg-navy:hover,
+.theme-cit button.bg-navy:hover {
+  background-color: var(--gold-light) !important;
+}
+
+/* CIT Flat fee alert banner override */
+.theme-cit .bg-navy.text-white.rounded-xl {
+  background-color: #F8F9FC !important;
+  color: #1E293B !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+.theme-cit .bg-navy.text-white.rounded-xl h3 {
+  color: var(--gold) !important;
+}
+
+.theme-cit .bg-navy.text-white.rounded-xl p {
+  color: #475569 !important;
+}
+
+.theme-cit .bg-navy.text-white.rounded-xl div.bg-white\/10 {
+  background-color: rgba(0, 78, 152, 0.08) !important;
+  border-color: rgba(0, 78, 152, 0.15) !important;
+  color: #0F172A !important;
+}
+
+.theme-cit .bg-navy.text-white.rounded-xl div.bg-white\/10 span {
+  color: #475569 !important;
+}
+
+
 
