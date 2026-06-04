@@ -144,6 +144,21 @@ function HomeContent() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
                 Shape Your Future at <span className="gradient-text-gold">Hindustan University</span>
               </h1>
+
+              {/* 🔥 80% Scholarship Banner */}
+              <div className="relative w-fit animate-fade-in-up">
+                <div className="flex items-center gap-3 bg-gradient-to-r from-gold via-gold-light to-gold rounded-2xl px-6 py-4 shadow-2xl border-2 border-white/20 animate-pulse-glow">
+                  <div className="flex flex-col items-center justify-center bg-white rounded-xl px-4 py-2 shadow-inner">
+                    <span className="text-4xl md:text-5xl font-black text-navy leading-none tracking-tighter">80%</span>
+                    <span className="text-[10px] font-bold text-navy/70 uppercase tracking-wider">Scholarship</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-lg md:text-xl font-extrabold text-white leading-tight">Scholarship Available!</span>
+                    <span className="text-xs text-white/90 font-medium">Merit-based fee waiver for qualifying students</span>
+                  </div>
+                </div>
+              </div>
+
               <p className="text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
                 Elevate your education at Chennai&apos;s leading NAAC A++ accredited university. 100+ programmes in Engineering, Management, Law, and Design with premium placements.
               </p>
