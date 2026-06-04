@@ -1,0 +1,16 @@
+{
+  "name": "Hindustan Institute of Technology & Science Admissions",
+  "short_name": "HITS Admissions",
+  "description": "Premium Enquiry and Course Portal for HITS Admissions 2025.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#003C71",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
