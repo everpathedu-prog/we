@@ -28,7 +28,7 @@ export function FloatingCTA() {
       {/* Mobile Sticky Bar (Sticky to bottom on small devices) */}
       <div className="fixed bottom-0 left-0 right-0 z-[150] bg-white border-t border-border p-3 flex gap-3 md:hidden shadow-lg animate-fade-in-up">
         <a
-          href="tel:+914427474262"
+          href="tel:+917339329264"
           className="flex-1 border-2 border-navy text-navy font-bold rounded-lg flex items-center justify-center gap-2 py-3 hover:bg-surface transition-all active:scale-[0.98]"
         >
           <PhoneCall size={18} />

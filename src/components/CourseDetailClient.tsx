@@ -9,11 +9,11 @@ import { EnquiryModal } from "@/components/EnquiryModal";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { ModalProvider } from "@/context/ModalContext";
 import { Course } from "@/data/courses";
-import { 
-  ChevronRight, 
-  CheckCircle2, 
+import {
+  ChevronRight,
+  CheckCircle2,
   ArrowLeft,
-  Clock, 
+  Clock,
   Award,
   BookOpen,
   Briefcase,
@@ -54,10 +54,10 @@ export function CourseDetailClient({ course }: CourseDetailClientProps) {
 
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 flex-1">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
+
             {/* Left Column: Course Main details */}
             <div className="lg:col-span-8 flex flex-col gap-8 text-left">
-              
+
               {/* Header info */}
               <div>
                 <Link href="/courses" className="inline-flex items-center gap-1.5 text-xs font-bold text-navy hover:text-navy-light mb-4 transition-colors">
@@ -157,7 +157,7 @@ export function CourseDetailClient({ course }: CourseDetailClientProps) {
                 <p className="text-xs text-text-muted mb-4 font-semibold">
                   Representative core subjects covered during the course:
                 </p>
-                
+
                 <div className="space-y-3">
                   {course.syllabus.map((subject, index) => (
                     <div
@@ -171,9 +171,8 @@ export function CourseDetailClient({ course }: CourseDetailClientProps) {
                         <span>Subject Module {index + 1}: {subject}</span>
                         <ChevronRight
                           size={16}
-                          className={`text-text-muted transition-transform duration-200 ${
-                            openAccordion === index ? "transform rotate-90" : ""
-                          }`}
+                          className={`text-text-muted transition-transform duration-200 ${openAccordion === index ? "transform rotate-90" : ""
+                            }`}
                         />
                       </button>
                       {openAccordion === index && (
@@ -219,7 +218,7 @@ export function CourseDetailClient({ course }: CourseDetailClientProps) {
               <div className="mt-6 border border-border rounded-xl p-4 bg-surface/30 flex gap-3 text-xs text-text-secondary">
                 <AlertCircle size={18} className="text-navy flex-shrink-0 mt-0.5" />
                 <p className="leading-relaxed">
-                  <strong>Need instant help?</strong> Call our HITS counselor helpdesk at <a href="tel:+914427474262" className="text-navy font-bold hover:underline">+91 (44) 2747 4262</a> during business hours (9:00 AM to 5:00 PM).
+                  <strong>Need instant help?</strong> Call our HITS counselor helpdesk at <a href="tel:+917339329264" className="text-navy font-bold hover:underline">+91 73393 29264</a> during business hours (9:00 AM to 5:00 PM).
                 </p>
               </div>
             </div>

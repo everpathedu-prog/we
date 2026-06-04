@@ -38,8 +38,8 @@ export function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled
-            ? "glass py-3.5 shadow-md"
-            : "bg-transparent py-5"
+          ? "glass py-3.5 shadow-md"
+          : "bg-transparent py-5"
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
@@ -59,10 +59,10 @@ export function Navbar() {
                   key={link.path}
                   href={link.path}
                   className={`relative font-semibold text-sm transition-colors duration-200 py-1.5 ${isActive
-                      ? "text-gold"
-                      : isScrolled
-                        ? "text-text-primary hover:text-navy"
-                        : "text-white/90 hover:text-white"
+                    ? "text-gold"
+                    : isScrolled
+                      ? "text-text-primary hover:text-navy"
+                      : "text-white/90 hover:text-white"
                     }`}
                 >
                   {link.name}
@@ -96,8 +96,8 @@ export function Navbar() {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`p-2 rounded-lg transition-colors ${isScrolled
-                  ? "text-navy hover:bg-navy/5"
-                  : "text-white hover:bg-white/10"
+                ? "text-navy hover:bg-navy/5"
+                : "text-white hover:bg-white/10"
                 }`}
               aria-label="Toggle mobile menu"
             >
@@ -110,8 +110,8 @@ export function Navbar() {
       {/* Mobile Navigation Drawer */}
       <div
         className={`fixed inset-0 z-[99] bg-navy/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${isMobileMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
           }`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
@@ -160,7 +160,7 @@ export function Navbar() {
             <ArrowUpRight size={18} />
           </button>
           <a
-            href="tel:+914427474262"
+            href="tel:+917339329264"
             className="w-full border-2 border-navy text-navy font-bold text-center py-2.5 rounded-lg text-sm block"
           >
             Call Helpline
