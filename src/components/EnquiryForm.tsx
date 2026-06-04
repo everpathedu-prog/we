@@ -16,8 +16,18 @@ const formSchema = zod.object({
     .regex(/^[a-zA-Z\s]+$/, "Only letters and spaces are allowed"),
   email: zod
     .string()
-    .email("Please enter a valid email address"),
+    .email("Please enter a valid email address")
+    .optional()
+    .or(zod.literal("")),
   phone: zod
+    .string()
+    .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number starting with 6-9"),
+  fatherName: zod
+    .string()
+    .min(3, "Father's name must be at least 3 characters")
+    .max(50, "Father's name must be under 50 characters")
+    .regex(/^[a-zA-Z\s]+$/, "Only letters and spaces are allowed"),
+  fatherPhone: zod
     .string()
     .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number starting with 6-9"),
   stateCity: zod
@@ -60,6 +70,8 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
       fullName: "",
       email: "",
       phone: "",
+      fatherName: "",
+      fatherPhone: "",
       stateCity: "",
       qualification: "",
       courseInterest: initialCourseSlug,
@@ -87,6 +99,8 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
         city: data.stateCity,
         target_course: data.courseInterest,
         college_name: "Hindustan University",
+        father_name: data.fatherName,
+        father_phone: data.fatherPhone,
       });
 
       if (onSuccess) {
@@ -153,7 +167,7 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
 
         <div>
           <label className="form-label" htmlFor="email">
-            Email Address <span className="text-red-500">*</span>
+            Email Address <span className="text-gray-400">(Optional)</span>
           </label>
           <input
             id="email"
@@ -163,6 +177,36 @@ export function EnquiryForm({ initialCourseSlug = "", onSuccess }: EnquiryFormPr
             {...register("email")}
           />
           {errors.email && <p className="form-error">{errors.email.message}</p>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="form-label" htmlFor="fatherName">
+            Father&apos;s Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="fatherName"
+            type="text"
+            placeholder="e.g. Suresh Sharma"
+            className={`form-input ${errors.fatherName ? "error" : ""}`}
+            {...register("fatherName")}
+          />
+          {errors.fatherName && <p className="form-error">{errors.fatherName.message}</p>}
+        </div>
+
+        <div>
+          <label className="form-label" htmlFor="fatherPhone">
+            Father&apos;s Mobile <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="fatherPhone"
+            type="tel"
+            placeholder="10-digit number"
+            className={`form-input ${errors.fatherPhone ? "error" : ""}`}
+            {...register("fatherPhone")}
+          />
+          {errors.fatherPhone && <p className="form-error">{errors.fatherPhone.message}</p>}
         </div>
       </div>
 
