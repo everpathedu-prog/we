@@ -23,25 +23,21 @@ const formSchema = zod.object({
     .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number starting with 6-9"),
   fatherName: zod
     .string()
-    .min(3, "Father's name must be at least 3 characters")
     .max(50, "Father's name must be under 50 characters")
-    .regex(/^[a-zA-Z\s]+$/, "Only letters and spaces are allowed"),
+    .optional()
+    .or(zod.literal("")),
   fatherPhone: zod
     .string()
-    .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number starting with 6-9"),
+    .optional()
+    .or(zod.literal("")),
   stateCity: zod
     .string()
-    .min(3, "Please enter your city and state"),
-  qualification: zod
-    .string()
-    .min(1, "Please select your current qualification"),
+    .optional()
+    .or(zod.literal("")),
   courseInterest: zod
     .string()
-    .min(1, "Please select a course"),
-  message: zod
-    .string()
-    .max(500, "Message must be under 500 characters")
-    .optional(),
+    .optional()
+    .or(zod.literal("")),
   // Honeypot spam trap
   website: zod.string().max(0, { message: "Spam detected" }).optional(),
 });
@@ -72,9 +68,7 @@ export function AvitEnquiryForm({ initialCourseSlug = "", onSuccess }: AvitEnqui
       fatherName: "",
       fatherPhone: "",
       stateCity: "",
-      qualification: "",
       courseInterest: initialCourseSlug,
-      message: "",
       website: "",
     },
   });
@@ -95,11 +89,11 @@ export function AvitEnquiryForm({ initialCourseSlug = "", onSuccess }: AvitEnqui
         name: data.fullName,
         email: data.email,
         phone: data.phone,
-        city: data.stateCity,
-        target_course: data.courseInterest,
+        city: data.stateCity || "",
+        target_course: data.courseInterest || "",
         college_name: "Aarupadai Veedu Institute of Technology",
-        father_name: data.fatherName,
-        father_phone: data.fatherPhone,
+        father_name: data.fatherName || "",
+        father_phone: data.fatherPhone || "",
       });
 
       if (onSuccess) {
@@ -182,7 +176,7 @@ export function AvitEnquiryForm({ initialCourseSlug = "", onSuccess }: AvitEnqui
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="form-label" htmlFor="avit-fatherName">
-            Father&apos;s Name <span className="text-red-500">*</span>
+            Father&apos;s Name
           </label>
           <input
             id="avit-fatherName"
@@ -196,7 +190,7 @@ export function AvitEnquiryForm({ initialCourseSlug = "", onSuccess }: AvitEnqui
 
         <div>
           <label className="form-label" htmlFor="avit-fatherPhone">
-            Father&apos;s Mobile <span className="text-red-500">*</span>
+            Father&apos;s Mobile
           </label>
           <input
             id="avit-fatherPhone"
@@ -209,44 +203,23 @@ export function AvitEnquiryForm({ initialCourseSlug = "", onSuccess }: AvitEnqui
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="form-label" htmlFor="avit-stateCity">
-            City, State <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="avit-stateCity"
-            type="text"
-            placeholder="e.g. Chennai, Tamil Nadu"
-            className={`form-input ${errors.stateCity ? "error" : ""}`}
-            {...register("stateCity")}
-          />
-          {errors.stateCity && <p className="form-error">{errors.stateCity.message}</p>}
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="avit-qualification">
-            Current Education <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="avit-qualification"
-            className={`form-input ${errors.qualification ? "error" : ""}`}
-            {...register("qualification")}
-          >
-            <option value="">Select Qualification</option>
-            <option value="10th">10th Std</option>
-            <option value="12th">12th Std (HSC)</option>
-            <option value="Diploma">Diploma Graduate</option>
-            <option value="Graduate">Undergraduate Degree</option>
-            <option value="Postgraduate">Postgraduate Degree</option>
-          </select>
-          {errors.qualification && <p className="form-error">{errors.qualification.message}</p>}
-        </div>
+      <div>
+        <label className="form-label" htmlFor="avit-stateCity">
+          City, State
+        </label>
+        <input
+          id="avit-stateCity"
+          type="text"
+          placeholder="e.g. Chennai, Tamil Nadu"
+          className={`form-input ${errors.stateCity ? "error" : ""}`}
+          {...register("stateCity")}
+        />
+        {errors.stateCity && <p className="form-error">{errors.stateCity.message}</p>}
       </div>
 
       <div>
         <label className="form-label" htmlFor="avit-courseInterest">
-          Select Programme of Interest <span className="text-red-500">*</span>
+          Select Programme of Interest
         </label>
         <select
           id="avit-courseInterest"
@@ -261,20 +234,6 @@ export function AvitEnquiryForm({ initialCourseSlug = "", onSuccess }: AvitEnqui
           ))}
         </select>
         {errors.courseInterest && <p className="form-error">{errors.courseInterest.message}</p>}
-      </div>
-
-      <div>
-        <label className="form-label" htmlFor="avit-message">
-          Questions or Comments <span className="text-gray-400">(Optional)</span>
-        </label>
-        <textarea
-          id="avit-message"
-          rows={3}
-          placeholder="Let us know if you have specific questions about eligibility, placements, or fees..."
-          className={`form-input resize-none ${errors.message ? "error" : ""}`}
-          {...register("message")}
-        />
-        {errors.message && <p className="form-error">{errors.message.message}</p>}
       </div>
 
       <button
