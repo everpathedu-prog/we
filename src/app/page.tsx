@@ -3,18 +3,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
+import { HubNavbar } from "@/components/HubNavbar";
+import { HubFooter } from "@/components/HubFooter";
 import { SectionHeading } from "@/components/SectionHeading";
-import { AnimatedCounter } from "@/components/AnimatedCounter";
-import { EnquiryForm } from "@/components/EnquiryForm";
-import { EnquiryModal } from "@/components/EnquiryModal";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { ModalProvider, useModal } from "@/context/ModalContext";
-import { departments, courses } from "@/data/courses";
+import { sendLeadEmails } from "@/lib/sendLeadEmails";
 import {
   Award,
-  Calendar,
+  BookOpen,
   Users,
   Briefcase,
   Building2,
@@ -22,563 +21,621 @@ import {
   CheckCircle2,
   GraduationCap,
   Star,
-  ChevronLeft,
-  ChevronRight,
   Sparkles,
-  BookOpen,
-  MapPin
+  MapPin,
+  ChevronRight,
+  Phone,
+  MessageSquare,
+  ShieldCheck,
+  Cpu
 } from "lucide-react";
 
-function HomeContent() {
-  const { openModal } = useModal();
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
+// Form Zod Schema
+const formSchema = zod.object({
+  fullName: zod
+    .string()
+    .min(3, "Full name must be at least 3 characters")
+    .max(50, "Full name must be under 50 characters")
+    .regex(/^[a-zA-Z\s]+$/, "Only letters and spaces are allowed"),
+  email: zod
+    .string()
+    .min(1, "Email address is required")
+    .email("Please enter a valid email address"),
+  phone: zod
+    .string()
+    .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number starting with 6-9"),
+  stateCity: zod
+    .string()
+    .min(1, "City and state are required"),
+  targetUniversity: zod
+    .string()
+    .min(1, "Please select a university of interest"),
+  website: zod.string().max(0, { message: "Spam detected" }).optional(),
+});
 
-  // Filter featured courses
-  const featuredCourses = courses.filter((c) => c.isFeatured);
+type FormData = zod.infer<typeof formSchema>;
 
-  const testimonials = [
+export default function AdmissionsHub() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      stateCity: "",
+      targetUniversity: "",
+      website: "",
+    },
+  });
+
+  const colleges = [
     {
-      name: "Abishek R.",
-      course: "B.Tech Computer Science & Engineering",
-      batch: "Class of 2024",
-      placement: "Placed at Microsoft (₹42 LPA)",
-      quote: "HITS provided me with the perfect blend of academic guidance and practical coding exposure. The IBM collaboration labs gave me hands-on experience in cloud architecture and deep learning that set me apart during recruitment interviews.",
-      imageBg: "from-blue-600 to-indigo-700"
+      id: "hits",
+      name: "Hindustan Institute of Technology & Science",
+      shortName: "HITS (Hindustan University)",
+      logo: "/hitslogo.png",
+      bgImage: "/hits.jpeg",
+      accreditation: "NAAC A++ Grade",
+      location: "OMR, Chennai",
+      established: "1985",
+      highlights: [
+        "100+ engineering, design & law streams",
+        "Co-branded research labs with IBM & Google",
+        "₹42 LPA record-breaking highest placement"
+      ],
+      pricing: "Merit scholarships up to 80% fee waiver",
+      slug: "/hindustan-university",
+      whatsapp: "https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20Hindustan%20University%20(HITS)%20Admissions%202026.%20Please%20share%20details."
     },
     {
-      name: "Sneha Nair",
-      course: "MBA — General Management",
-      batch: "Class of 2023",
-      placement: "Placed at KPMG (₹12 LPA)",
-      quote: "The business case-study model at HITS School of Management is outstanding. The industry seminars, interaction with startup founders, and mandatory internship helped me build strong corporate networks before graduating.",
-      imageBg: "from-amber-500 to-orange-600"
+      id: "saveetha",
+      name: "Saveetha University (Engineering & Tech)",
+      shortName: "SEC (Saveetha Engineering College)",
+      logo: "/saveethalogo.png",
+      bgImage: "/saveetha_campus.png",
+      accreditation: "NAAC A++ Grade",
+      location: "Thandalam, Chennai",
+      established: "2001",
+      highlights: [
+        "16 specialized next-generation B.Tech courses",
+        "5-tier merit-based absolute slab models",
+        "100% placement track with top tech firms"
+      ],
+      pricing: "Scholarship slabs up to 100% tuition waiver",
+      slug: "/saveetha-university",
+      whatsapp: "https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20Saveetha%20University%20Admissions%202026.%20Please%20share%20details."
     },
     {
-      name: "Karthik Raja",
-      course: "B.Arch — Bachelor of Architecture",
-      batch: "Class of 2022",
-      placement: "Junior Architect at L&T Infrastructure",
-      quote: "Studying architecture at HITS was an enriching journey. The design studios are equipped with high-end workstation systems, and the professors encourage sustainable and climate-resilient designs. The NATA coaching here is top-notch.",
-      imageBg: "from-emerald-500 to-teal-700"
+      id: "cit",
+      name: "Chettinad Institute of Technology (CARE)",
+      shortName: "CIT (Chettinad Tech)",
+      logo: "/citlogo.png",
+      bgImage: "/cit_campus_hero.png",
+      accreditation: "NAAC A++ (CARE Partner)",
+      location: "OMR Manamai, Chennai",
+      established: "2008",
+      highlights: [
+        "11 high-demand computing & VLSI streams",
+        "Located in prime IT corridor of Chennai OMR",
+        "Industry-aligned research & simulation labs"
+      ],
+      pricing: "Flat merit admissions at ₹1,50,000/Yr",
+      slug: "/chettinad-institute-of-technology",
+      whatsapp: "https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20Chettinad%20Institute%20of%20Technology%20(CIT)%20Admissions%202026.%20Please%20share%20details."
+    },
+    {
+      id: "avit",
+      name: "Aarupadai Veedu Institute of Technology",
+      shortName: "AVIT (Vinayaka Missions)",
+      logo: "/avitlogo.png",
+      bgImage: "/avit_campus.png",
+      accreditation: "NAAC A Accredited",
+      location: "Paiyanoor, Chennai OMR",
+      established: "1998",
+      highlights: [
+        "10 B.Tech engineering branches & core fields",
+        "Expansive smart green campus with research focus",
+        "Global internship programs and expert mentors"
+      ],
+      pricing: "Highly affordable options from ₹80,000/Yr",
+      slug: "/avit",
+      whatsapp: "https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20AVIT%20Admissions%202026.%20Please%20share%20details."
     }
   ];
 
-  const handleNextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const handlePrevTestimonial = () => {
-    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const usps = [
-    {
-      icon: <Award className="text-gold h-8 w-8" />,
-      title: "NAAC A++ Accreditation",
-      description: "Highest ranking grade awarded by NAAC with CGPA of 3.62/4, validating our academic and infrastructure excellence."
-    },
-    {
-      icon: <Users className="text-gold h-8 w-8" />,
-      title: "Industry Partnerships",
-      description: "Active collaboration with global giants like IBM, Google, Amazon, and Cognizant for curriculum design and lab setup."
-    },
-    {
-      icon: <Briefcase className="text-gold h-8 w-8" />,
-      title: "95% Placement Record",
-      description: "Dedicated placement cell ensuring high-quality job offers from over 500+ top recruiters and fortune 500 companies."
-    },
-    {
-      icon: <Building2 className="text-gold h-8 w-8" />,
-      title: "Premium Campus & Labs",
-      description: "Over 150+ acres of green smart campus in Chennai with cutting-edge computing resources, workshops, and libraries."
+  const handleQuickEnquiry = (universityName: string) => {
+    setValue("targetUniversity", universityName);
+    const targetElement = document.querySelector("#enquiry");
+    if (targetElement) {
+      const offset = 80;
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
-  ];
+  };
 
-  const stats = [
-    { label: "Highest Package", value: 42, suffix: " LPA", prefix: "₹", isCounter: true },
-    { label: "Placement Rate", value: 95, suffix: "%", prefix: "", isCounter: true },
-    { label: "Recruiters", value: 500, suffix: "+", prefix: "", isCounter: true },
-    { label: "UG & PG Programs", value: 100, suffix: "+", prefix: "", isCounter: true }
-  ];
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    setErrorMsg("");
+    setSuccessMsg("");
 
-  const partnerLogos = [
-    { name: "IBM", desc: "Co-Branded CSE Labs" },
-    { name: "Google Cloud", desc: "Associate Cloud Training" },
-    { name: "NVIDIA", desc: "AI Lab Infrastructure" },
-    { name: "L&T", desc: "Civil Engineering Tie-ups" },
-    { name: "Ashok Leyland", desc: "Automotive Technology Workshops" },
-    { name: "Cognizant", desc: "Strategic Recruiting Partner" }
-  ];
+    try {
+      await sendLeadEmails({
+        name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        city: data.stateCity,
+        target_course: "General B.Tech/Engineering Enquiry",
+        college_name: data.targetUniversity,
+      });
+
+      setSuccessMsg("Your request was submitted successfully! Redirecting...");
+      setTimeout(() => {
+        router.push(`/thank-you?name=${encodeURIComponent(data.fullName)}`);
+      }, 1500);
+    } catch (error) {
+      console.error("Hub Form submit error:", error);
+      setErrorMsg("Failed to connect to the server. Please check your internet connection.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="flex-1 flex flex-col">
-      <Navbar />
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col font-sans selection:bg-indigo-600 selection:text-white">
+      <HubNavbar />
 
-      {/* ─── SECTION 1: HERO SECTION ─── */}
-      <section className="relative text-white overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 lg:pt-48 lg:pb-28 min-h-[90vh] flex items-center">
-        {/* Background Image */}
-        <Image
-          src="/hits.jpeg"
-          alt="Hindustan University Campus"
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-navy/80 mix-blend-multiply" />
+      {/* ─── SECTION 1: HERO PORTAL GATEWAY ─── */}
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden flex items-center min-h-[90vh]">
+        {/* Abstract Background Elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.18),rgba(255,255,255,0))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-35" />
+        
+        {/* Glow Spheres */}
+        <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-        {/* Background Grid Pattern */}
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]" />
-
-        {/* Decorative Light Radial */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-navy-light/40 rounded-full blur-3xl opacity-30 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative w-full">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative w-full z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Hero text content */}
-            <div className="lg:col-span-7 flex flex-col gap-6 text-left animate-slide-in-right">
-              <div className="inline-flex items-center gap-2 bg-gold/10 text-gold-light border border-gold/20 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider w-fit">
-                <Sparkles size={14} className="animate-spin duration-3000" />
-                <span>HITS Admission 2026 Now Open</span>
+            
+            {/* Left Column: Heading */}
+            <div className="lg:col-span-7 flex flex-col gap-6 text-left">
+              <div className="inline-flex items-center gap-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider w-fit">
+                <Sparkles size={13} className="animate-pulse" />
+                <span>Admissions Hub 2026-27</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
-                Shape Your Future at <span className="gradient-text-gold">Hindustan University</span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white">
+                Find Your Perfect <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-300">
+                  Engineering Campus
+                </span>
               </h1>
-
-              {/* 🔥 80% Scholarship Banner */}
-              <div 
-                onClick={() => openModal()}
-                className="relative w-full sm:w-fit max-w-md animate-fade-in-up cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all"
-              >
-                <div className="flex items-center gap-2.5 sm:gap-3 bg-gradient-to-r from-gold via-gold-light to-gold rounded-2xl px-4 py-3 sm:px-6 sm:py-4 shadow-2xl border border-white/20 animate-pulse-glow">
-                  <div className="flex flex-col items-center justify-center bg-white rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 shadow-inner flex-shrink-0">
-                    <span className="text-3xl sm:text-4xl md:text-5xl font-black text-navy leading-none tracking-tighter">80%</span>
-                    <span className="text-[9px] sm:text-[10px] font-bold text-navy/70 uppercase tracking-wider">Scholarship</span>
-                  </div>
-                  <div className="flex flex-col text-left">
-                    <span className="text-sm sm:text-base md:text-lg font-extrabold text-white leading-tight">Scholarship Available!</span>
-                    <span className="text-[10px] sm:text-xs text-white/90 font-medium leading-normal mt-0.5">Merit-based fee waiver for qualifying students</span>
-                  </div>
-                </div>
-              </div>
-
-              <p className="text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
-                Elevate your education at Chennai&apos;s leading NAAC A++ accredited university. 100+ programmes in Engineering, Management, Law, and Design with premium placements.
+              <p className="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed">
+                Everpath is the official admissions partner for Chennai&apos;s leading engineering institutions. Explore direct merit-based entry, verify scholarship slabs, and submit queries to multiple campuses from one dashboard.
               </p>
 
-              {/* Trust Indicators */}
-              <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6 mt-6 max-w-lg">
-                <div>
-                  <p className="text-xl font-bold text-gold-light">A++ Grade</p>
-                  <p className="text-xs text-white/60">NAAC Rating</p>
-                </div>
-                <div>
-                  <p className="text-xl font-bold text-gold-light">40+ Years</p>
-                  <p className="text-xs text-white/60">Academic Legacy</p>
-                </div>
-                <div>
-                  <p className="text-xl font-bold text-gold-light">₹42 LPA</p>
-                  <p className="text-xs text-white/60">Highest Package</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Embedded Form (Right side) */}
-            <div className="lg:col-span-5 animate-fade-in-up delay-200">
-              <div className="bg-white rounded-2xl shadow-2xl border border-border p-6 md:p-8 max-w-md mx-auto text-text-primary">
-                <h2 className="text-2xl font-bold text-navy mb-1 text-center">Admission Enquiry</h2>
-                <p className="text-text-secondary text-sm mb-5 text-center">
-                  Submit details to receive our brochure and cutoff alerts.
-                </p>
-                <EnquiryForm />
-
-                {/* Or Divider */}
-                <div className="relative flex py-4 items-center">
-                  <div className="flex-grow border-t border-border"></div>
-                  <span className="flex-shrink mx-4 text-text-muted text-xs font-semibold uppercase">Or</span>
-                  <div className="flex-grow border-t border-border"></div>
-                </div>
-
-                {/* WhatsApp Quick Enquiry Button */}
-                <a
-                  href="https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20Hindustan%20University%20B.Tech%20Admissions%202026.%20Please%20share%20more%20details."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all w-full text-sm cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
-                >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.5-5.739-1.451L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.958C16.604 1.927 14.133.91 11.5.91c-5.437 0-9.863 4.42-9.866 9.863-.001 1.702.469 3.366 1.36 4.842L2.032 21.05l5.615-1.472L6.648 19.154zM17.487 14.39c-.3-.15-1.782-.88-2.05-.98-.268-.1-.463-.15-.658.15-.195.3-.755.98-.927 1.18-.171.2-.343.225-.643.075-.3-.15-1.27-.47-2.418-1.494-.894-.798-1.502-1.783-1.678-2.083-.176-.3-.019-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.658-1.583-.902-2.17-.238-.57-.498-.49-.658-.5-.152-.007-.327-.008-.5-.008-.175 0-.46.066-.7.325-.24.26-.915.894-.915 2.178 0 1.285.934 2.528 1.064 2.7.13.174 1.838 2.808 4.453 3.937.622.268 1.108.428 1.488.548.625.2 1.194.171 1.644.105.502-.075 1.782-.728 2.034-1.432.252-.705.252-1.31.177-1.43-.075-.12-.27-.195-.57-.345z" />
-                  </svg>
-                  <span>Quick Enquiry via WhatsApp</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 2: TRUST BAR ─── */}
-      <section className="bg-navy border-y border-navy-light/20 py-6 text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 lg:gap-16 text-center">
-            <div className="flex items-center gap-3">
-              <Award className="text-gold h-6 w-6 flex-shrink-0" />
-              <span className="text-sm font-semibold tracking-wide">NAAC A++ ACCREDITED</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Calendar className="text-gold h-6 w-6 flex-shrink-0" />
-              <span className="text-sm font-semibold tracking-wide">ESTABLISHED IN 1985</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <GraduationCap className="text-gold h-6 w-6 flex-shrink-0" />
-              <span className="text-sm font-semibold tracking-wide">100+ PROGRAMMES</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Users className="text-gold h-6 w-6 flex-shrink-0" />
-              <span className="text-sm font-semibold tracking-wide">10,000+ ALUMNI WORLDWIDE</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 3: COURSE DEPARTMENTS ─── */}
-      <section className="section bg-surface">
-        <div className="section-container">
-          <SectionHeading
-            title="Explore Our Course Departments"
-            subtitle="Academic Specialisations"
-            align="center"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {departments.map((dept) => (
-              <Link
-                key={dept.slug}
-                href={`/courses?department=${dept.slug}`}
-                className="bg-white border border-border rounded-xl p-6 hover:border-gold card-hover flex flex-col justify-between group"
-              >
-                <div>
-                  <span className="text-3xl mb-4 block" role="img" aria-label={dept.name}>
-                    {dept.icon}
-                  </span>
-                  <h3 className="text-lg font-bold text-navy group-hover:text-navy-light transition-colors mb-2">
-                    {dept.name}
-                  </h3>
-                  <p className="text-sm text-text-secondary">
-                    {dept.count} Programmes Available
-                  </p>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs font-bold text-gold mt-6 group-hover:gap-2.5 transition-all">
-                  <span>View Courses</span>
-                  <ArrowRight size={14} />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 4: WHY HITS ─── */}
-      <section className="section bg-white">
-        <div className="section-container">
-          <SectionHeading
-            title="Why Choose Hindustan University?"
-            subtitle="The HITS Edge"
-            align="center"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {usps.map((usp, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center text-center p-6 border border-border-light rounded-xl bg-surface/40 hover:bg-surface transition-colors"
-              >
-                <div className="bg-navy/5 p-4 rounded-full mb-5 text-navy">
-                  {usp.icon}
-                </div>
-                <h3 className="text-lg font-bold text-navy mb-3">{usp.title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">
-                  {usp.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 5: INDUSTRY LOGO STRIP ─── */}
-      <section className="bg-surface py-12 border-y border-border overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-6">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-text-secondary">
-            Leading Knowledge & Training Partners
-          </h4>
-        </div>
-        <div className="relative flex overflow-x-hidden">
-          <div className="animate-marquee flex gap-12 whitespace-nowrap items-center py-2">
-            {[...partnerLogos, ...partnerLogos].map((logo, idx) => (
-              <div
-                key={idx}
-                className="bg-white border border-border rounded-lg px-6 py-4 shadow-sm inline-flex flex-col items-center justify-center min-w-[200px]"
-              >
-                <span className="font-extrabold text-navy text-lg tracking-wider">{logo.name}</span>
-                <span className="text-[10px] font-bold text-text-muted mt-1 uppercase tracking-wide">
-                  {logo.desc}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 6: FEATURED COURSES ─── */}
-      <section className="section bg-white">
-        <div className="section-container">
-          <SectionHeading
-            title="Featured Academic Programmes"
-            subtitle="Trending Fields"
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredCourses.map((course) => (
-              <div
-                key={course.slug}
-                className="bg-white border border-border rounded-xl shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all border-t-4 border-t-navy"
-              >
-                <div className="p-6">
-                  <div className="flex justify-between items-start gap-4 mb-4">
-                    <span className="text-xs font-bold text-gold uppercase tracking-wider bg-gold/5 px-2.5 py-1 rounded-md border border-gold/10">
-                      {course.department}
-                    </span>
-                    <span className="text-xs font-semibold text-text-muted">
-                      {course.duration}
-                    </span>
+              {/* USP Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-slate-900 pt-8 mt-4">
+                <div className="flex gap-3 items-start">
+                  <div className="bg-indigo-600/10 p-2 rounded-lg text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                    <Award size={18} />
                   </div>
-                  <h3 className="text-xl font-bold text-navy mb-3 line-clamp-1">
-                    {course.name}
-                  </h3>
-                  <p className="text-sm text-text-secondary line-clamp-3 mb-5 leading-relaxed">
-                    {course.description}
-                  </p>
-
-                  {/* Highlights Bullet List */}
-                  <ul className="space-y-2 mb-6">
-                    {course.highlights.slice(0, 3).map((hl, index) => (
-                      <li key={index} className="flex items-start gap-2.5 text-xs text-text-secondary">
-                        <CheckCircle2 size={14} className="text-success mt-0.5 flex-shrink-0" />
-                        <span>{hl}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="bg-surface px-6 py-4 border-t border-border flex items-center justify-between gap-4">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] text-text-muted font-semibold uppercase">Course Fee</span>
-                    <span className="text-sm font-bold text-navy">{course.fees.split("/")[0]}</span>
+                  <div>
+                    <h4 className="font-bold text-sm text-white">NAAC A/A++ Grades</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">Top-tier institutions</p>
                   </div>
-                  <div className="flex gap-2">
-                    <Link
-                      href={`/courses/${course.slug}`}
-                      className="border border-navy text-navy font-bold px-4 py-2 rounded-lg text-xs hover:bg-navy hover:text-white transition-all"
-                    >
-                      Syllabus
-                    </Link>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="bg-indigo-600/10 p-2 rounded-lg text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                    <Sparkles size={18} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-white">Up to 80% Scholarship</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">Merit fee reductions</p>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="bg-indigo-600/10 p-2 rounded-lg text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                    <Briefcase size={18} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-white">100% Placement Help</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">Corporate connections</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Hero Graphic/Quick Select */}
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="bg-slate-900/90 border border-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl relative w-full max-w-md backdrop-blur-md">
+                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-4 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
+                  Helpline Active
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Admissions Quick Panel</h3>
+                <p className="text-xs text-slate-400 mb-6">
+                  Select a university to lock in direct counseling assistance.
+                </p>
+
+                <div className="flex flex-col gap-3.5">
+                  {colleges.map((col) => (
                     <button
-                      onClick={() => openModal(course.slug)}
-                      className="bg-gold text-text-on-gold font-bold px-4 py-2 rounded-lg text-xs hover:bg-gold-light transition-all"
+                      key={col.id}
+                      onClick={() => handleQuickEnquiry(col.name)}
+                      className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950 hover:bg-indigo-600/10 border border-slate-850 hover:border-indigo-500/20 text-left transition-all group"
                     >
-                      Apply Now
+                      <div className="flex items-center gap-3">
+                        <div className="bg-white p-1 rounded-lg w-10 h-10 flex items-center justify-center flex-shrink-0">
+                          <Image src={col.logo} alt={col.shortName} width={36} height={36} className="object-contain max-h-full max-w-full" />
+                        </div>
+                        <div>
+                          <span className="block font-bold text-xs text-slate-200 group-hover:text-white transition-colors">{col.shortName}</span>
+                          <span className="block text-[10px] text-slate-500 group-hover:text-indigo-300 transition-colors mt-0.5">{col.location}</span>
+                        </div>
+                      </div>
+                      <ChevronRight size={16} className="text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ─── SECTION 2: PARTNER COLLEGES SHOWCASE ─── */}
+      <section id="colleges" className="py-24 border-t border-slate-900 bg-slate-950 relative">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <SectionHeading
+            title="Our Partner Institutions"
+            subtitle="Explore Campuses & Admissions"
+            align="center"
+            light={true}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mt-16">
+            {colleges.map((col) => (
+              <div
+                key={col.id}
+                className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-slate-700/80 transition-all duration-300 shadow-xl group hover:-translate-y-1"
+              >
+                <div>
+                  {/* Banner Image */}
+                  <div className="relative h-48 sm:h-56 overflow-hidden">
+                    <Image
+                      src={col.bgImage}
+                      alt={col.name}
+                      fill
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {/* Dark radial overlay */}
+                    <div className="absolute inset-0 bg-slate-950/45 group-hover:bg-slate-950/35 transition-colors" />
+
+                    {/* Logo on Banner */}
+                    <div className="absolute bottom-4 left-4 bg-white px-3 py-1.5 rounded-xl shadow-lg flex items-center justify-center max-w-[140px] max-h-[44px]">
+                      <Image src={col.logo} alt={col.shortName} width={120} height={36} className="object-contain max-h-8" />
+                    </div>
+
+                    {/* NAAC badge */}
+                    <div className="absolute top-4 right-4 bg-indigo-600 text-white font-bold text-[10px] tracking-wider uppercase px-3.5 py-1.5 rounded-full shadow-md">
+                      {col.accreditation}
+                    </div>
+                  </div>
+
+                  {/* Body Content */}
+                  <div className="p-6 sm:p-8">
+                    <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold mb-2 uppercase tracking-widest">
+                      <MapPin size={13} />
+                      <span>{col.location}</span>
+                      <span className="text-slate-700 font-normal">|</span>
+                      <span>Est. {col.established}</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-indigo-400 transition-colors mb-4 leading-tight">
+                      {col.name}
+                    </h3>
+
+                    {/* Highlights bullet list */}
+                    <ul className="space-y-3 mb-6">
+                      {col.highlights.map((hl, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-400">
+                          <CheckCircle2 size={16} className="text-indigo-500 mt-0.5 flex-shrink-0" />
+                          <span>{hl}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Footer buttons / CTA panel */}
+                <div className="bg-slate-950 px-6 py-5 sm:px-8 border-t border-slate-850 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex flex-col text-left">
+                    <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Scholarships / Fees</span>
+                    <span className="text-xs sm:text-sm font-bold text-white mt-0.5 leading-normal">{col.pricing}</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 flex-shrink-0">
+                    {/* View Campus */}
+                    <Link
+                      href={col.slug}
+                      className="border border-slate-800 hover:border-slate-700 bg-slate-900 text-slate-200 hover:text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1 shadow-sm transition-all"
+                    >
+                      <span>Campus & Fees</span>
+                      <ArrowRight size={13} />
+                    </Link>
+
+                    {/* Inquiry form trigger */}
+                    <button
+                      onClick={() => handleQuickEnquiry(col.name)}
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
+                    >
+                      <span>Direct Enquiry</span>
                     </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-12">
-            <Link href="/courses" className="btn-outline inline-flex items-center gap-2">
-              <span>View All 100+ Programmes</span>
-              <ArrowRight size={18} />
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* ─── SECTION 7: PLACEMENT STATS ─── */}
-      <section className="section gradient-navy text-white relative overflow-hidden">
-        {/* Background Grid Accent */}
-        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:30px_30px]" />
-
-        <div className="section-container relative z-10">
+      {/* ─── SECTION 3: HOW IT WORKS (THE ADMISSIONS PROCESS) ─── */}
+      <section id="process" className="py-24 bg-slate-900 border-t border-slate-950 relative">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
           <SectionHeading
-            title="Premium Career Placements"
-            subtitle="HITS Placement Milestones"
+            title="Simplified Admissions Process"
+            subtitle="How Everpath Guides Your Journey"
             align="center"
             light={true}
           />
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mt-12">
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center flex flex-col items-center gap-2">
-                <div className="text-3xl md:text-5xl lg:text-6xl font-black text-gold-light tracking-tight">
-                  {stat.isCounter ? (
-                    <AnimatedCounter
-                      end={stat.value}
-                      prefix={stat.prefix}
-                      suffix={stat.suffix}
-                    />
-                  ) : (
-                    `${stat.prefix}${stat.value}${stat.suffix}`
-                  )}
-                </div>
-                <div className="h-1 w-10 bg-gold rounded-full my-1" />
-                <span className="text-sm font-semibold tracking-wide text-white/70 uppercase">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mt-16 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-left">
-              <h3 className="text-xl font-bold mb-2">Are you ready to join over 10,000+ global alumni?</h3>
-              <p className="text-sm text-white/75">
-                Our active campus placement recruitment for the 2026 batch has officially commenced.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 relative">
+            {/* Step 1 */}
+            <div className="bg-slate-950 border border-slate-800 p-8 rounded-3xl text-left relative flex flex-col gap-4">
+              <span className="text-5xl font-black text-slate-800 leading-none">01</span>
+              <h3 className="text-lg font-bold text-white">Compare Campuses</h3>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Review courses, fee slabs, placements, and campus amenities for our 4 partner colleges. Find the one that matches your goals.
               </p>
             </div>
-            <button
-              onClick={() => openModal()}
-              className="btn-primary py-3 px-8 text-sm font-bold flex-shrink-0 animate-pulse-glow"
-            >
-              Start Placement Registration
-            </button>
+
+            {/* Step 2 */}
+            <div className="bg-slate-950 border border-slate-800 p-8 rounded-3xl text-left relative flex flex-col gap-4">
+              <span className="text-5xl font-black text-slate-800 leading-none">02</span>
+              <h3 className="text-lg font-bold text-white">Verify Merit Slabs</h3>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Submit your board marks or details to check your eligibility for direct fee discounts, up to a 100% waiver.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-slate-950 border border-slate-800 p-8 rounded-3xl text-left relative flex flex-col gap-4">
+              <span className="text-5xl font-black text-slate-800 leading-none">03</span>
+              <h3 className="text-lg font-bold text-white">Complete Onboarding</h3>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Our advisors will assist with registration forms, official seat locking, and complete verification for direct university onboarding.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── SECTION 8: TESTIMONIALS ─── */}
-      <section className="section bg-surface">
-        <div className="section-container">
-          <SectionHeading
-            title="What Our Successful Alumni Say"
-            subtitle="Student Testimonials"
-            align="center"
-          />
+      {/* ─── SECTION 4: UNIFIED REGISTER & CONTACT FORM ─── */}
+      <section id="enquiry" className="py-24 bg-slate-950 relative border-t border-slate-900 flex items-center min-h-[80vh]">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Column: Direct info panel */}
+            <div className="lg:col-span-6 flex flex-col gap-6 text-left">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+                Centralized Admissions &<br />
+                <span className="text-indigo-400">Counseling Desk 2026</span>
+              </h2>
+              <p className="text-slate-400 leading-relaxed text-sm md:text-base">
+                Have questions about specific B.Tech branches, hostels, placement drives, or scholarship verification? Fill out the quick panel. An advisor will contact you within 24 hours to clarify eligibility.
+              </p>
 
-          <div className="max-w-4xl mx-auto relative mt-8">
-            <div className="bg-white border border-border rounded-2xl shadow-md p-6 md:p-10 min-h-[300px] flex flex-col justify-between">
-              <div>
-                <span className="text-6xl text-gold font-serif leading-none block mb-2">&ldquo;</span>
-                <p className="text-base md:text-lg text-text-secondary italic leading-relaxed mb-6">
-                  {testimonials[activeTestimonial].quote}
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-border-light pt-6 gap-4">
-                <div className="flex items-center gap-4">
-                  <div className={`h-12 w-12 rounded-full bg-gradient-to-tr ${testimonials[activeTestimonial].imageBg} flex items-center justify-center text-white font-bold text-lg shadow-inner`}>
-                    {testimonials[activeTestimonial].name.charAt(0)}
+              <div className="flex flex-col gap-5 mt-4 text-sm">
+                <div className="flex gap-3.5 items-start">
+                  <div className="bg-indigo-600/10 p-2.5 rounded-xl text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                    <ShieldCheck size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-navy text-base leading-none">
-                      {testimonials[activeTestimonial].name}
-                    </h4>
-                    <span className="text-xs font-semibold text-text-muted mt-1 block">
-                      {testimonials[activeTestimonial].course} ({testimonials[activeTestimonial].batch})
-                    </span>
+                    <h4 className="font-bold text-white text-sm">Official & Direct Channel</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">Secure direct enrollment with zero broker interference.</p>
                   </div>
                 </div>
-                <div className="bg-gold/10 border border-gold/20 text-gold-dark font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 w-fit">
-                  <Briefcase size={14} />
-                  <span>{testimonials[activeTestimonial].placement}</span>
+
+                <div className="flex gap-3.5 items-start">
+                  <div className="bg-indigo-600/10 p-2.5 rounded-xl text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                    <Phone size={18} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Admissions Hotline (Call / WhatsApp)</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">Reach our desk immediately: <a href="tel:+917339329264" className="text-indigo-400 font-bold hover:underline">+91 73393 29264</a></p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Slider arrows */}
-            <div className="flex justify-end gap-3 mt-6">
-              <button
-                onClick={handlePrevTestimonial}
-                className="p-3 rounded-full border border-border bg-white text-navy hover:bg-navy hover:text-white transition-all shadow-sm"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                onClick={handleNextTestimonial}
-                className="p-3 rounded-full border border-border bg-white text-navy hover:bg-navy hover:text-white transition-all shadow-sm"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight size={18} />
-              </button>
+            {/* Right Column: Registration Form */}
+            <div className="lg:col-span-6">
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl relative">
+                <h3 className="text-xl font-bold mb-1">Admissions Enquiry</h3>
+                <p className="text-xs text-slate-400 mb-6">Submit details to request brochures and scholarship eligibility guidelines.</p>
+
+                {errorMsg && (
+                  <div className="p-3 mb-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl">
+                    {errorMsg}
+                  </div>
+                )}
+
+                {successMsg && (
+                  <div className="p-3 mb-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl">
+                    {successMsg}
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
+                  {/* Honeypot Field */}
+                  <div className="hidden">
+                    <label htmlFor="website">Website</label>
+                    <input id="website" type="text" {...register("website")} tabIndex={-1} autoComplete="off" />
+                  </div>
+
+                  {/* Name */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="fullName">
+                      Full Name *
+                    </label>
+                    <input
+                      id="fullName"
+                      type="text"
+                      placeholder="e.g. Vikram Kumar"
+                      className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                      {...register("fullName")}
+                    />
+                    {errors.fullName && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.fullName.message}</p>}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Mobile */}
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="phone">
+                        Mobile Number *
+                      </label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        placeholder="10-digit number"
+                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                        {...register("phone")}
+                      />
+                      {errors.phone && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.phone.message}</p>}
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="email">
+                        Email Address *
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="name@example.com"
+                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                        {...register("email")}
+                      />
+                      {errors.email && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.email.message}</p>}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* State / City */}
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="stateCity">
+                        City & State *
+                      </label>
+                      <input
+                        id="stateCity"
+                        type="text"
+                        placeholder="e.g. Patna, Bihar"
+                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                        {...register("stateCity")}
+                      />
+                      {errors.stateCity && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.stateCity.message}</p>}
+                    </div>
+
+                    {/* College of Interest */}
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="targetUniversity">
+                        College of Interest *
+                      </label>
+                      <select
+                        id="targetUniversity"
+                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white transition-all outline-none"
+                        {...register("targetUniversity")}
+                      >
+                        <option value="" disabled className="bg-slate-900 text-slate-500">Select University</option>
+                        <option value="Hindustan University" className="bg-slate-900 text-white">Hindustan University (HITS)</option>
+                        <option value="Saveetha University" className="bg-slate-900 text-white">Saveetha University</option>
+                        <option value="Chettinad Institute of Technology" className="bg-slate-900 text-white">Chettinad Institute of Tech (CIT)</option>
+                        <option value="Aarupadai Veedu Institute of Technology" className="bg-slate-900 text-white">AVIT (Vinayaka Missions)</option>
+                      </select>
+                      {errors.targetUniversity && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.targetUniversity.message}</p>}
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition-all text-sm cursor-pointer disabled:bg-indigo-600/50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-6"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                        <span>Sending Request...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Submit Admissions Request</span>
+                        <ArrowRight size={16} />
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ─── SECTION 9: CAMPUS GALLERY ─── */}
-      <section className="section bg-white">
-        <div className="section-container">
-          <SectionHeading
-            title="Life on HITS Campus"
-            subtitle="Campus Facilities"
-            align="center"
-          />
+      {/* ─── SECTION 5: HELPLINE SHORTCUT ─── */}
+      <section id="helpline" className="py-16 bg-slate-900 border-t border-slate-950 text-center relative">
+        <div className="max-w-4xl mx-auto px-4">
+          <GraduationCap className="h-10 w-10 text-indigo-400 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold mb-3">Speak to an admissions advisor immediately</h3>
+          <p className="text-slate-400 text-sm max-w-lg mx-auto mb-8 leading-relaxed">
+            Need urgent guidance? Tap the button to initiate a quick inquiry over WhatsApp, or contact our direct voice desk.
+          </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="group relative overflow-hidden rounded-xl h-64 border border-border shadow-sm">
-              <div className="absolute inset-0 bg-gradient-to-tr from-navy to-indigo-900 flex items-center justify-center text-white p-6 text-center">
-                <div>
-                  <GraduationCap size={40} className="mx-auto text-gold mb-3 animate-float" />
-                  <h4 className="font-bold text-lg">Main Administrative block</h4>
-                  <p className="text-xs text-white/70 mt-1">Smart classrooms & lecture theatres</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="group relative overflow-hidden rounded-xl h-64 border border-border shadow-sm">
-              <div className="absolute inset-0 bg-gradient-to-tr from-navy to-emerald-950 flex items-center justify-center text-white p-6 text-center">
-                <div>
-                  <BookOpen size={40} className="mx-auto text-gold mb-3 animate-float" />
-                  <h4 className="font-bold text-lg">Central Library</h4>
-                  <p className="text-xs text-white/70 mt-1">100K+ volumes & e-journal access</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="group relative overflow-hidden rounded-xl h-64 border border-border shadow-sm">
-              <div className="absolute inset-0 bg-gradient-to-tr from-navy to-amber-950 flex items-center justify-center text-white p-6 text-center">
-                <div>
-                  <Building2 size={40} className="mx-auto text-gold mb-3 animate-float" />
-                  <h4 className="font-bold text-lg">Modern IT Research Labs</h4>
-                  <p className="text-xs text-white/70 mt-1">IBM, Google Cloud & NVIDIA labs</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="group relative overflow-hidden rounded-xl h-64 border border-border shadow-sm">
-              <div className="absolute inset-0 bg-gradient-to-tr from-navy to-purple-950 flex items-center justify-center text-white p-6 text-center">
-                <div>
-                  <MapPin size={40} className="mx-auto text-gold mb-3 animate-float" />
-                  <h4 className="font-bold text-lg">Student hostels & sports</h4>
-                  <p className="text-xs text-white/70 mt-1">State-of-the-art courts & facilities</p>
-                </div>
-              </div>
-            </div>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="https://wa.me/917339329264?text=Hi!%20I'm%20interested%2520in%20direct%20admissions%20at%20Chennai%20Engineering%20Colleges.%20Please%20guide%20me."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold py-3.5 px-7 rounded-2xl shadow-lg transition-all text-sm flex items-center gap-2"
+            >
+              <MessageSquare size={18} />
+              <span>Connect on WhatsApp</span>
+            </a>
+            <a
+              href="tel:+917339329264"
+              className="bg-slate-950 hover:bg-slate-900 text-white font-bold py-3.5 px-7 rounded-2xl shadow-md border border-slate-800 transition-all text-sm flex items-center gap-2"
+            >
+              <Phone size={18} className="text-indigo-400" />
+              <span>Call +91 73393 29264</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <Footer />
-      <EnquiryModal />
-      <FloatingCTA />
+      <HubFooter />
     </div>
-  );
-}
-
-export default function Home() {
-  return (
-    <ModalProvider>
-      <HomeContent />
-    </ModalProvider>
   );
 }

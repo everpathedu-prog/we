@@ -27,26 +27,26 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.everpatheducation.com"),
   title: {
-    default: "Hindustan Institute of Technology & Science (HITS) | Admissions 2026",
-    template: "%s | HITS — Hindustan University",
+    default: "Everpath Education | Partner University Admissions 2026",
+    template: "%s | Everpath Education",
   },
   description:
-    "Apply to Hindustan Institute of Technology & Science (HITS), Chennai. NAAC A++ accredited. 100+ UG, PG & Doctoral programmes in Engineering, Management, Law, Sciences, Design & more. Top placements with IBM, Google, Cognizant.",
+    "Official admissions partner for top-tier NAAC accredited universities in Chennai. Secure your seat at Hindustan University (HITS), Saveetha University, Chettinad Institute of Technology (CIT), or AVIT. Merit scholarships up to 80% available.",
   keywords:
-    "HITS, Hindustan University, Hindustan Institute of Technology, admissions 2026, engineering colleges Chennai, MBA Chennai, B.Tech, NAAC A++, top university Tamil Nadu",
+    "admissions 2026, engineering colleges Chennai, B.Tech admissions, merit scholarship, Hindustan University, Saveetha University, Chettinad Institute of Technology, AVIT, engineering counseling Chennai",
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "Everpath Education — HITS",
-    title: "Hindustan Institute of Technology & Science (HITS) | Admissions 2026",
+    siteName: "Everpath Education",
+    title: "Everpath Education | Partner University Admissions 2026",
     description:
-      "NAAC A++ accredited. 100+ programmes. Top placements. Apply now for 2026 admissions.",
+      "Official admissions partner for top-tier NAAC accredited universities in Chennai. Apply now to HITS, Saveetha, CIT, or AVIT.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HITS — Hindustan University | Admissions 2026",
+    title: "Everpath Education | Partner University Admissions 2026",
     description:
-      "NAAC A++ accredited. 100+ programmes. Apply now.",
+      "Admissions open for 2026. Official partner for HITS, Saveetha, CIT, and AVIT. Merit scholarships up to 80% available.",
   },
   robots: {
     index: true,
