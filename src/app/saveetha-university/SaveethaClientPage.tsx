@@ -821,7 +821,7 @@ function SaveethaPageContent() {
                 <p className="text-xs text-text-secondary mt-1.5">
                   General admissions & seat booking desk:
                 </p>
-                <a href="tel:+918939902737" className="text-gold-dark font-bold text-sm hover:underline mt-1.5 block">
+                <a href="tel:+917339329264" className="text-gold-dark font-bold text-sm hover:underline mt-1.5 block">
                   +917339329264
                 </a>
               </div>

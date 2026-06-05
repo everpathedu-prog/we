@@ -122,14 +122,9 @@ export function SaveethaFooter() {
             </li>
             <li className="flex gap-3 items-center">
               <Phone size={18} className="text-gold flex-shrink-0" />
-              <div className="flex flex-col">
-                <a href="tel:+918939902737" className="hover:text-gold-light transition-colors">
-                  +917339329264
-                </a>
-                <a href="tel:04466726690" className="hover:text-gold-light transition-colors text-xs text-white/60">
-                  +917339329264
-                </a>
-              </div>
+              <a href="tel:+917339329264" className="hover:text-gold-light transition-colors">
+                +91 73393 29264
+              </a>
             </li>
             <li className="flex gap-3 items-center">
               <Mail size={18} className="text-gold flex-shrink-0" />
