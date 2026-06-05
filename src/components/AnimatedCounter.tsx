@@ -20,20 +20,31 @@ export function AnimatedCounter({
   const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
+    if (hasAnimated) return;
+
+    // Fallback: trigger animation after 1.5s in case intersection doesn't fire
+    const fallbackTimeout = setTimeout(() => {
+      setHasAnimated(true);
+    }, 1500);
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
+        if (entries[0].isIntersecting) {
           setHasAnimated(true);
+          clearTimeout(fallbackTimeout);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0 }
     );
 
     if (elementRef.current) {
       observer.observe(elementRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallbackTimeout);
+    };
   }, [hasAnimated]);
 
   useEffect(() => {
