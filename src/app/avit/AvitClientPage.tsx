@@ -7,6 +7,7 @@ import { AvitNavbar } from "@/components/AvitNavbar";
 import { AvitFooter } from "@/components/AvitFooter";
 import { AvitEnquiryForm } from "@/components/AvitEnquiryForm";
 import { AvitEnquiryModal } from "@/components/AvitEnquiryModal";
+import { FloatingCTA } from "@/components/FloatingCTA";
 import { avitCourses } from "@/data/avitCourses";
 import {
   Award,
@@ -201,23 +202,8 @@ function AvitPageContent() {
                 Build your engineering career at Aarupadai Veedu Institute of Technology. Choose from 10 B.Tech branches with affordable fees and strong industry placement support.
               </p>
 
-              {/* WhatsApp Quick Enquiry Button */}
-              <div className="mt-2 mb-2">
-                <a
-                  href="https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20AVIT%20B.Tech%20Admissions%202026.%20Please%20share%20more%20details."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all w-fit text-sm cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
-                >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.5-5.739-1.451L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.958C16.604 1.927 14.133.91 11.5.91c-5.437 0-9.863 4.42-9.866 9.863-.001 1.702.469 3.366 1.36 4.842L2.032 21.05l5.615-1.472L6.648 19.154zM17.487 14.39c-.3-.15-1.782-.88-2.05-.98-.268-.1-.463-.15-.658.15-.195.3-.755.98-.927 1.18-.171.2-.343.225-.643.075-.3-.15-1.27-.47-2.418-1.494-.894-.798-1.502-1.783-1.678-2.083-.176-.3-.019-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.658-1.583-.902-2.17-.238-.57-.498-.49-.658-.5-.152-.007-.327-.008-.5-.008-.175 0-.46.066-.7.325-.24.26-.915.894-.915 2.178 0 1.285.934 2.528 1.064 2.7.13.174 1.838 2.808 4.453 3.937.622.268 1.108.428 1.488.548.625.2 1.194.171 1.644.105.502-.075 1.782-.728 2.034-1.432.252-.705.252-1.31.177-1.43-.075-.12-.27-.195-.57-.345z" />
-                  </svg>
-                  <span>Quick Enquiry via WhatsApp</span>
-                </a>
-              </div>
-
               {/* USP Row */}
-              <div className="grid grid-cols-3 gap-4 border-t border-white/20 pt-6 mt-2 max-w-lg">
+              <div className="grid grid-cols-3 gap-4 border-t border-white/20 pt-6 mt-6 max-w-lg">
                 <div>
                   <p className="text-2xl font-bold text-gold-light">AICTE</p>
                   <p className="text-xs text-white/75">Approved</p>
@@ -244,6 +230,26 @@ function AvitPageContent() {
                   Submit details to receive brochures, fee info & book your seat.
                 </p>
                 <AvitEnquiryForm />
+
+                {/* Or Divider */}
+                <div className="relative flex py-4 items-center">
+                  <div className="flex-grow border-t border-border"></div>
+                  <span className="flex-shrink mx-4 text-text-muted text-xs font-semibold uppercase">Or</span>
+                  <div className="flex-grow border-t border-border"></div>
+                </div>
+
+                {/* WhatsApp Quick Enquiry Button */}
+                <a
+                  href="https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20AVIT%20B.Tech%20Admissions%202026.%20Please%20share%20more%20details."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all w-full text-sm cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.5-5.739-1.451L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.958C16.604 1.927 14.133.91 11.5.91c-5.437 0-9.863 4.42-9.866 9.863-.001 1.702.469 3.366 1.36 4.842L2.032 21.05l5.615-1.472L6.648 19.154zM17.487 14.39c-.3-.15-1.782-.88-2.05-.98-.268-.1-.463-.15-.658.15-.195.3-.755.98-.927 1.18-.171.2-.343.225-.643.075-.3-.15-1.27-.47-2.418-1.494-.894-.798-1.502-1.783-1.678-2.083-.176-.3-.019-.462.13-.61.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.658-1.583-.902-2.17-.238-.57-.498-.49-.658-.5-.152-.007-.327-.008-.5-.008-.175 0-.46.066-.7.325-.24.26-.915.894-.915 2.178 0 1.285.934 2.528 1.064 2.7.13.174 1.838 2.808 4.453 3.937.622.268 1.108.428 1.488.548.625.2 1.194.171 1.644.105.502-.075 1.782-.728 2.034-1.432.252-.705.252-1.31.177-1.43-.075-.12-.27-.195-.57-.345z" />
+                  </svg>
+                  <span>Quick Enquiry via WhatsApp</span>
+                </a>
               </div>
             </div>
           </div>
@@ -587,6 +593,7 @@ function AvitPageContent() {
 
       <AvitFooter />
       <AvitEnquiryModal />
+      <FloatingCTA />
     </div>
   );
 }

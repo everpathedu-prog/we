@@ -67,6 +67,7 @@
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
   --color-text-on-dark: var(--text-on-dark);
+  --color-text-on-gold: var(--text-on-gold);
   --color-success: var(--success);
   --color-error: var(--error);
   --color-info: var(--info);
@@ -373,6 +374,7 @@ h1, h2, h3, h4, h5, h6 {
   --gold: #FC392D;
   --gold-light: #FF5E54;
   --gold-dark: #D12318;
+  --text-on-gold: #FFFFFF;
 
   /* Font overrides: Outfit for headings, Inter for body */
   font-family: var(--font-inter), var(--font-plus-jakarta), sans-serif;
@@ -399,6 +401,7 @@ h1, h2, h3, h4, h5, h6 {
   --gold: #F45925;
   --gold-light: #FF7A4F;
   --gold-dark: #C73D12;
+  --text-on-gold: #FFFFFF;
 
   /* Font overrides: Outfit for headings, Plus Jakarta for body */
   font-family: var(--font-plus-jakarta), var(--font-inter), sans-serif;

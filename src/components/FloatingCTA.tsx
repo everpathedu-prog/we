@@ -17,6 +17,9 @@ export function FloatingCTA() {
       }
     };
 
+    // Run check on mount in case page loads/reloads already scrolled
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -26,13 +29,13 @@ export function FloatingCTA() {
   return (
     <>
       {/* Mobile Sticky Bar (Sticky to bottom on small devices) */}
-      <div className="fixed bottom-0 left-0 right-0 z-[150] bg-white border-t border-border p-3 flex gap-3 md:hidden shadow-lg animate-fade-in-up">
+      <div className="fixed bottom-0 left-0 right-0 z-[150] bg-white border-t border-border p-3 pb-[calc(12px+env(safe-area-inset-bottom))] flex gap-3 md:hidden shadow-lg animate-fade-in-up">
         <a
           href="tel:+917339329264"
           className="flex-1 border-2 border-navy text-navy font-bold rounded-lg flex items-center justify-center gap-2 py-3 hover:bg-surface transition-all active:scale-[0.98]"
         >
           <PhoneCall size={18} />
-          <span>Call HITS</span>
+          <span>Call Counsellor</span>
         </a>
         <button
           onClick={() => openModal()}
