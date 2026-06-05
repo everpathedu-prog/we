@@ -314,7 +314,7 @@ export default function AdmissionsHub() {
                 key={col.id}
                 className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-slate-700/80 transition-all duration-300 shadow-xl group hover:-translate-y-1"
               >
-                <div>
+                <Link href={col.slug} className="block cursor-pointer flex-grow">
                   {/* Banner Image */}
                   <div className="relative h-48 sm:h-56 overflow-hidden">
                     <Image
@@ -359,7 +359,7 @@ export default function AdmissionsHub() {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </Link>
 
                 {/* Footer buttons / CTA panel */}
                 <div className="bg-slate-950 px-6 py-5 sm:px-8 border-t border-slate-850 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
