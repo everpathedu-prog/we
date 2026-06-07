@@ -211,16 +211,15 @@ export default function AdmissionsHub() {
 
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative w-full z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
             {/* Left Column: Heading */}
-            <div className="lg:col-span-7 flex flex-col gap-6 text-left">
-              <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 border border-indigo-100 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider w-fit">
+            <div className="lg:col-span-6 flex flex-col gap-6 text-left">
+              <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-650 border border-indigo-100/70 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider w-fit">
                 <Sparkles size={13} className="animate-pulse" />
                 <span>Admissions Hub 2026-27</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-slate-900">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-slate-900 animate-slide-in-right">
                 Find Your Perfect <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-500">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-650 to-indigo-500">
                   Engineering Campus
                 </span>
               </h1>
@@ -228,39 +227,37 @@ export default function AdmissionsHub() {
                 Everpath is the official admissions partner for Chennai&apos;s leading engineering institutions. Explore direct merit-based entry, verify scholarship slabs, and submit queries to multiple campuses from one dashboard.
               </p>
 
-              {/* Colleges Quick Selection on Mobile */}
-              <div className="block lg:hidden mt-2 bg-white border border-slate-200/80 p-5 rounded-3xl shadow-lg relative">
-                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1.5 bg-indigo-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full shadow-md">
-                  Helpline Active
-                </div>
-                <h3 className="text-sm font-bold text-slate-900 mb-1">Admissions Quick Panel</h3>
-                <p className="text-[11px] text-slate-500 mb-3">
-                  Select a university to lock in direct counseling assistance.
-                </p>
-                <div className="flex flex-col gap-2.5">
-                  {colleges.map((col) => (
-                    <button
-                      key={col.id}
-                      onClick={() => handleQuickEnquiry(col.name)}
-                      className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-100 hover:border-indigo-100 text-left transition-all group cursor-pointer"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <div className="bg-white p-1 rounded-lg w-9 h-9 flex items-center justify-center flex-shrink-0 border border-slate-100">
-                          <Image src={col.logo} alt={col.shortName} width={28} height={28} className="object-contain max-h-full max-w-full" />
-                        </div>
-                        <div>
-                          <span className="block font-bold text-[11px] text-slate-800 group-hover:text-indigo-900 transition-colors leading-tight">{col.shortName}</span>
-                          <span className="block text-[9px] text-slate-500 group-hover:text-indigo-600 transition-colors mt-0.5 leading-none">{col.location}</span>
-                        </div>
-                      </div>
-                      <ChevronRight size={14} className="text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all" />
-                    </button>
-                  ))}
-                </div>
+              {/* Action Buttons in Hero */}
+              <div className="flex flex-wrap gap-4 mt-2">
+                <a
+                  href="#enquiry"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const targetElement = document.querySelector("#enquiry");
+                    if (targetElement) {
+                      const offset = 80;
+                      const elementPosition = targetElement.getBoundingClientRect().top;
+                      const offsetPosition = elementPosition + window.pageYOffset - offset;
+                      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
+                  }}
+                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-8 rounded-2xl text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+                >
+                  Quick Enquiry Form
+                </a>
+                <a
+                  href="https://wa.me/917339329264?text=Hi!%20I'm%20interested%20in%20direct%20admissions%20at%20Chennai%20Engineering%20Colleges.%20Please%20guide%20me."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold py-3.5 px-8 rounded-2xl text-sm shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center gap-2"
+                >
+                  <MessageSquare size={16} />
+                  <span>WhatsApp Enquiry</span>
+                </a>
               </div>
 
               {/* USP Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-slate-200 pt-8 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-slate-200 pt-8 mt-6">
                 <div className="flex gap-3 items-start">
                   <div className="bg-indigo-50 p-2 rounded-lg text-indigo-600 border border-indigo-100 flex-shrink-0">
                     <Award size={18} />
@@ -291,40 +288,58 @@ export default function AdmissionsHub() {
               </div>
             </div>
 
-            {/* Right Column: Hero Graphic/Quick Select */}
-            <div className="lg:col-span-5 hidden lg:flex justify-center">
-              <div className="bg-white/95 border border-slate-200/80 p-6 md:p-8 rounded-3xl shadow-xl relative w-full max-w-md backdrop-blur-md">
-                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-4 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
-                  Helpline Active
+            {/* Right Column: Admissions Quick Panel (2x2 Card Grid) */}
+            <div className="lg:col-span-6 flex flex-col gap-6 w-full mt-8 lg:mt-0">
+              <div className="flex flex-col gap-1 text-left">
+                <div className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 border border-indigo-100/50 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest w-fit mb-2">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
+                  <span>Admissions Open 2026-27</span>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Admissions Quick Panel</h3>
-                <p className="text-xs text-slate-550 mb-6">
-                  Select a university to lock in direct counseling assistance.
+                <h3 className="text-2xl font-black text-slate-900 leading-tight">Admissions Quick Panel</h3>
+                <p className="text-xs text-slate-550">
+                  Select a college card below to explore full details and merit fee slabs.
                 </p>
+              </div>
 
-                <div className="flex flex-col gap-3.5">
-                  {colleges.map((col) => (
-                    <button
-                      key={col.id}
-                      onClick={() => handleQuickEnquiry(col.name)}
-                      className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-100 hover:border-indigo-100 text-left transition-all group cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="bg-white p-1 rounded-lg w-10 h-10 flex items-center justify-center flex-shrink-0 border border-slate-100">
-                          <Image src={col.logo} alt={col.shortName} width={36} height={36} className="object-contain max-h-full max-w-full" />
-                        </div>
-                        <div>
-                          <span className="block font-bold text-xs text-slate-800 group-hover:text-indigo-900 transition-colors">{col.shortName}</span>
-                          <span className="block text-[10px] text-slate-500 group-hover:text-indigo-600 transition-colors mt-0.5">{col.location}</span>
-                        </div>
-                      </div>
-                      <ChevronRight size={16} className="text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all" />
-                    </button>
-                  ))}
-                </div>
+              <div className="grid grid-cols-2 gap-4 w-full">
+                {colleges.map((col) => (
+                  <Link
+                    key={col.id}
+                    href={col.slug}
+                    className="group/card flex flex-col justify-between items-center text-center p-5 sm:p-6 bg-white border border-slate-200 hover:border-indigo-400 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[190px] relative overflow-hidden"
+                  >
+                    {/* Top Accent Gradient Border */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover/card:opacity-100 transition-opacity" />
+
+                    {/* Logo container */}
+                    <div className="bg-white p-2 rounded-xl w-14 h-14 flex items-center justify-center border border-slate-100 shadow-sm transition-transform duration-300 group-hover/card:scale-105">
+                      <Image
+                        src={col.logo}
+                        alt={col.shortName}
+                        width={42}
+                        height={42}
+                        className="object-contain max-h-full max-w-full"
+                      />
+                    </div>
+
+                    {/* Typography */}
+                    <div className="flex flex-col items-center mt-3.5 flex-grow">
+                      <span className="block font-black text-xs sm:text-sm text-slate-800 group-hover/card:text-indigo-600 transition-colors leading-snug">
+                        {col.shortName}
+                      </span>
+                      <span className="block text-[10px] text-slate-500 font-medium mt-1">
+                        {col.location}
+                      </span>
+                    </div>
+
+                    {/* Bottom Accreditation Tag */}
+                    <span className="inline-block mt-4 text-[9px] font-extrabold uppercase tracking-widest bg-indigo-50 text-indigo-600 border border-indigo-150 px-2.5 py-0.5 rounded-full">
+                      {col.accreditation.replace(" Accredited", "")}
+                    </span>
+                  </Link>
+                ))}
               </div>
             </div>
-
           </div>
         </div>
       </section>
