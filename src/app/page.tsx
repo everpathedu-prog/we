@@ -196,64 +196,95 @@ export default function AdmissionsHub() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col font-sans selection:bg-indigo-600 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-indigo-600 selection:text-white">
       <HubNavbar />
 
       {/* ─── SECTION 1: HERO PORTAL GATEWAY ─── */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden flex items-center min-h-[90vh]">
         {/* Abstract Background Elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.18),rgba(255,255,255,0))]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-35" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.08),rgba(255,255,255,0))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-50" />
         
         {/* Glow Spheres */}
-        <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative w-full z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column: Heading */}
             <div className="lg:col-span-7 flex flex-col gap-6 text-left">
-              <div className="inline-flex items-center gap-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider w-fit">
+              <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 border border-indigo-100 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider w-fit">
                 <Sparkles size={13} className="animate-pulse" />
                 <span>Admissions Hub 2026-27</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-slate-900">
                 Find Your Perfect <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-300">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-500">
                   Engineering Campus
                 </span>
               </h1>
-              <p className="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed">
+              <p className="text-base md:text-lg text-slate-600 max-w-xl leading-relaxed">
                 Everpath is the official admissions partner for Chennai&apos;s leading engineering institutions. Explore direct merit-based entry, verify scholarship slabs, and submit queries to multiple campuses from one dashboard.
               </p>
 
+              {/* Colleges Quick Selection on Mobile */}
+              <div className="block lg:hidden mt-2 bg-white border border-slate-200/80 p-5 rounded-3xl shadow-lg relative">
+                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1.5 bg-indigo-600 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full shadow-md">
+                  Helpline Active
+                </div>
+                <h3 className="text-sm font-bold text-slate-900 mb-1">Admissions Quick Panel</h3>
+                <p className="text-[11px] text-slate-500 mb-3">
+                  Select a university to lock in direct counseling assistance.
+                </p>
+                <div className="flex flex-col gap-2.5">
+                  {colleges.map((col) => (
+                    <button
+                      key={col.id}
+                      onClick={() => handleQuickEnquiry(col.name)}
+                      className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-100 hover:border-indigo-100 text-left transition-all group cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="bg-white p-1 rounded-lg w-9 h-9 flex items-center justify-center flex-shrink-0 border border-slate-100">
+                          <Image src={col.logo} alt={col.shortName} width={28} height={28} className="object-contain max-h-full max-w-full" />
+                        </div>
+                        <div>
+                          <span className="block font-bold text-[11px] text-slate-800 group-hover:text-indigo-900 transition-colors leading-tight">{col.shortName}</span>
+                          <span className="block text-[9px] text-slate-500 group-hover:text-indigo-600 transition-colors mt-0.5 leading-none">{col.location}</span>
+                        </div>
+                      </div>
+                      <ChevronRight size={14} className="text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* USP Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-slate-900 pt-8 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-slate-200 pt-8 mt-4">
                 <div className="flex gap-3 items-start">
-                  <div className="bg-indigo-600/10 p-2 rounded-lg text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                  <div className="bg-indigo-50 p-2 rounded-lg text-indigo-600 border border-indigo-100 flex-shrink-0">
                     <Award size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-white">NAAC A/A++ Grades</h4>
+                    <h4 className="font-bold text-sm text-slate-900">NAAC A/A++ Grades</h4>
                     <p className="text-xs text-slate-500 mt-0.5">Top-tier institutions</p>
                   </div>
                 </div>
                 <div className="flex gap-3 items-start">
-                  <div className="bg-indigo-600/10 p-2 rounded-lg text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                  <div className="bg-indigo-50 p-2 rounded-lg text-indigo-600 border border-indigo-100 flex-shrink-0">
                     <Sparkles size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-white">Up to 80% Scholarship</h4>
+                    <h4 className="font-bold text-sm text-slate-900">Up to 80% Scholarship</h4>
                     <p className="text-xs text-slate-500 mt-0.5">Merit fee reductions</p>
                   </div>
                 </div>
                 <div className="flex gap-3 items-start">
-                  <div className="bg-indigo-600/10 p-2 rounded-lg text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                  <div className="bg-indigo-50 p-2 rounded-lg text-indigo-600 border border-indigo-100 flex-shrink-0">
                     <Briefcase size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-white">100% Placement Help</h4>
+                    <h4 className="font-bold text-sm text-slate-900">100% Placement Help</h4>
                     <p className="text-xs text-slate-500 mt-0.5">Corporate connections</p>
                   </div>
                 </div>
@@ -261,13 +292,13 @@ export default function AdmissionsHub() {
             </div>
 
             {/* Right Column: Hero Graphic/Quick Select */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="bg-slate-900/90 border border-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl relative w-full max-w-md backdrop-blur-md">
+            <div className="lg:col-span-5 hidden lg:flex justify-center">
+              <div className="bg-white/95 border border-slate-200/80 p-6 md:p-8 rounded-3xl shadow-xl relative w-full max-w-md backdrop-blur-md">
                 <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-4 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
                   Helpline Active
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Admissions Quick Panel</h3>
-                <p className="text-xs text-slate-400 mb-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Admissions Quick Panel</h3>
+                <p className="text-xs text-slate-550 mb-6">
                   Select a university to lock in direct counseling assistance.
                 </p>
 
@@ -276,18 +307,18 @@ export default function AdmissionsHub() {
                     <button
                       key={col.id}
                       onClick={() => handleQuickEnquiry(col.name)}
-                      className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950 hover:bg-indigo-600/10 border border-slate-850 hover:border-indigo-500/20 text-left transition-all group"
+                      className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-100 hover:border-indigo-100 text-left transition-all group cursor-pointer"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="bg-white p-1 rounded-lg w-10 h-10 flex items-center justify-center flex-shrink-0">
+                        <div className="bg-white p-1 rounded-lg w-10 h-10 flex items-center justify-center flex-shrink-0 border border-slate-100">
                           <Image src={col.logo} alt={col.shortName} width={36} height={36} className="object-contain max-h-full max-w-full" />
                         </div>
                         <div>
-                          <span className="block font-bold text-xs text-slate-200 group-hover:text-white transition-colors">{col.shortName}</span>
-                          <span className="block text-[10px] text-slate-500 group-hover:text-indigo-300 transition-colors mt-0.5">{col.location}</span>
+                          <span className="block font-bold text-xs text-slate-800 group-hover:text-indigo-900 transition-colors">{col.shortName}</span>
+                          <span className="block text-[10px] text-slate-500 group-hover:text-indigo-600 transition-colors mt-0.5">{col.location}</span>
                         </div>
                       </div>
-                      <ChevronRight size={16} className="text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+                      <ChevronRight size={16} className="text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all" />
                     </button>
                   ))}
                 </div>
@@ -299,20 +330,20 @@ export default function AdmissionsHub() {
       </section>
 
       {/* ─── SECTION 2: PARTNER COLLEGES SHOWCASE ─── */}
-      <section id="colleges" className="py-24 border-t border-slate-900 bg-slate-950 relative">
+      <section id="colleges" className="py-24 border-t border-slate-100 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <SectionHeading
             title="Our Partner Institutions"
             subtitle="Explore Campuses & Admissions"
             align="center"
-            light={true}
+            light={false}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mt-16">
             {colleges.map((col) => (
               <div
                 key={col.id}
-                className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-slate-700/80 transition-all duration-300 shadow-xl group hover:-translate-y-1"
+                className="bg-slate-50 border border-slate-200/80 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-indigo-100 hover:shadow-lg transition-all duration-300 shadow-sm group hover:-translate-y-1"
               >
                 <Link href={col.slug} className="block cursor-pointer flex-grow">
                   {/* Banner Image */}
@@ -323,11 +354,11 @@ export default function AdmissionsHub() {
                       fill
                       className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     />
-                    {/* Dark radial overlay */}
-                    <div className="absolute inset-0 bg-slate-950/45 group-hover:bg-slate-950/35 transition-colors" />
+                    {/* Light radial overlay */}
+                    <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/10 transition-colors" />
 
                     {/* Logo on Banner */}
-                    <div className="absolute bottom-4 left-4 bg-white px-3 py-1.5 rounded-xl shadow-lg flex items-center justify-center max-w-[140px] max-h-[44px]">
+                    <div className="absolute bottom-4 left-4 bg-white px-3 py-1.5 rounded-xl shadow-lg flex items-center justify-center max-w-[140px] max-h-[44px] border border-slate-100">
                       <Image src={col.logo} alt={col.shortName} width={120} height={36} className="object-contain max-h-8" />
                     </div>
 
@@ -339,21 +370,21 @@ export default function AdmissionsHub() {
 
                   {/* Body Content */}
                   <div className="p-6 sm:p-8">
-                    <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold mb-2 uppercase tracking-widest">
+                    <div className="flex items-center gap-2 text-indigo-600 text-xs font-semibold mb-2 uppercase tracking-widest">
                       <MapPin size={13} />
                       <span>{col.location}</span>
-                      <span className="text-slate-700 font-normal">|</span>
+                      <span className="text-slate-300 font-normal">|</span>
                       <span>Est. {col.established}</span>
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-indigo-400 transition-colors mb-4 leading-tight">
+                    <h3 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-indigo-600 transition-colors mb-4 leading-tight">
                       {col.name}
                     </h3>
 
                     {/* Highlights bullet list */}
                     <ul className="space-y-3 mb-6">
                       {col.highlights.map((hl, i) => (
-                        <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-400">
-                          <CheckCircle2 size={16} className="text-indigo-500 mt-0.5 flex-shrink-0" />
+                        <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600">
+                          <CheckCircle2 size={16} className="text-indigo-600 mt-0.5 flex-shrink-0" />
                           <span>{hl}</span>
                         </li>
                       ))}
@@ -362,17 +393,17 @@ export default function AdmissionsHub() {
                 </Link>
 
                 {/* Footer buttons / CTA panel */}
-                <div className="bg-slate-950 px-6 py-5 sm:px-8 border-t border-slate-850 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="bg-white px-6 py-5 sm:px-8 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex flex-col text-left">
                     <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Scholarships / Fees</span>
-                    <span className="text-xs sm:text-sm font-bold text-white mt-0.5 leading-normal">{col.pricing}</span>
+                    <span className="text-xs sm:text-sm font-bold text-slate-800 mt-0.5 leading-normal">{col.pricing}</span>
                   </div>
 
                   <div className="flex flex-wrap gap-2 flex-shrink-0">
                     {/* View Campus */}
                     <Link
                       href={col.slug}
-                      className="border border-slate-800 hover:border-slate-700 bg-slate-900 text-slate-200 hover:text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1 shadow-sm transition-all"
+                      className="border border-slate-200 hover:border-slate-300 bg-white text-slate-700 hover:text-slate-900 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1 shadow-sm transition-all hover:bg-slate-50"
                     >
                       <span>Campus & Fees</span>
                       <ArrowRight size={13} />
@@ -381,7 +412,7 @@ export default function AdmissionsHub() {
                     {/* Inquiry form trigger */}
                     <button
                       onClick={() => handleQuickEnquiry(col.name)}
-                      className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
                     >
                       <span>Direct Enquiry</span>
                     </button>
@@ -394,39 +425,39 @@ export default function AdmissionsHub() {
       </section>
 
       {/* ─── SECTION 3: HOW IT WORKS (THE ADMISSIONS PROCESS) ─── */}
-      <section id="process" className="py-24 bg-slate-900 border-t border-slate-950 relative">
+      <section id="process" className="py-24 bg-slate-50 border-t border-slate-100 relative">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <SectionHeading
             title="Simplified Admissions Process"
             subtitle="How Everpath Guides Your Journey"
             align="center"
-            light={true}
+            light={false}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 relative">
             {/* Step 1 */}
-            <div className="bg-slate-950 border border-slate-800 p-8 rounded-3xl text-left relative flex flex-col gap-4">
-              <span className="text-5xl font-black text-slate-800 leading-none">01</span>
-              <h3 className="text-lg font-bold text-white">Compare Campuses</h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <div className="bg-white border border-slate-200/80 p-8 rounded-3xl text-left relative flex flex-col gap-4 shadow-sm">
+              <span className="text-5xl font-black text-slate-200 leading-none">01</span>
+              <h3 className="text-lg font-bold text-slate-900">Compare Campuses</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Review courses, fee slabs, placements, and campus amenities for our 4 partner colleges. Find the one that matches your goals.
               </p>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-slate-950 border border-slate-800 p-8 rounded-3xl text-left relative flex flex-col gap-4">
-              <span className="text-5xl font-black text-slate-800 leading-none">02</span>
-              <h3 className="text-lg font-bold text-white">Verify Merit Slabs</h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <div className="bg-white border border-slate-200/80 p-8 rounded-3xl text-left relative flex flex-col gap-4 shadow-sm">
+              <span className="text-5xl font-black text-slate-200 leading-none">02</span>
+              <h3 className="text-lg font-bold text-slate-900">Verify Merit Slabs</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Submit your board marks or details to check your eligibility for direct fee discounts, up to a 100% waiver.
               </p>
             </div>
 
             {/* Step 3 */}
-            <div className="bg-slate-950 border border-slate-800 p-8 rounded-3xl text-left relative flex flex-col gap-4">
-              <span className="text-5xl font-black text-slate-800 leading-none">03</span>
-              <h3 className="text-lg font-bold text-white">Complete Onboarding</h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <div className="bg-white border border-slate-200/80 p-8 rounded-3xl text-left relative flex flex-col gap-4 shadow-sm">
+              <span className="text-5xl font-black text-slate-200 leading-none">03</span>
+              <h3 className="text-lg font-bold text-slate-900">Complete Onboarding</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Our advisors will assist with registration forms, official seat locking, and complete verification for direct university onboarding.
               </p>
             </div>
@@ -435,38 +466,38 @@ export default function AdmissionsHub() {
       </section>
 
       {/* ─── SECTION 4: UNIFIED REGISTER & CONTACT FORM ─── */}
-      <section id="enquiry" className="py-24 bg-slate-950 relative border-t border-slate-900 flex items-center min-h-[80vh]">
+      <section id="enquiry" className="py-24 bg-white relative border-t border-slate-100 flex items-center min-h-[80vh]">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column: Direct info panel */}
             <div className="lg:col-span-6 flex flex-col gap-6 text-left">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
                 Centralized Admissions &<br />
-                <span className="text-indigo-400">Counseling Desk 2026</span>
+                <span className="text-indigo-600">Counseling Desk 2026</span>
               </h2>
-              <p className="text-slate-400 leading-relaxed text-sm md:text-base">
+              <p className="text-slate-600 leading-relaxed text-sm md:text-base">
                 Have questions about specific B.Tech branches, hostels, placement drives, or scholarship verification? Fill out the quick panel. An advisor will contact you within 24 hours to clarify eligibility.
               </p>
 
               <div className="flex flex-col gap-5 mt-4 text-sm">
                 <div className="flex gap-3.5 items-start">
-                  <div className="bg-indigo-600/10 p-2.5 rounded-xl text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                  <div className="bg-indigo-50 p-2.5 rounded-xl text-indigo-600 border border-indigo-100 flex-shrink-0">
                     <ShieldCheck size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white text-sm">Official & Direct Channel</h4>
+                    <h4 className="font-bold text-slate-900 text-sm">Official & Direct Channel</h4>
                     <p className="text-xs text-slate-500 mt-0.5">Secure direct enrollment with zero broker interference.</p>
                   </div>
                 </div>
 
                 <div className="flex gap-3.5 items-start">
-                  <div className="bg-indigo-600/10 p-2.5 rounded-xl text-indigo-400 border border-indigo-500/10 flex-shrink-0">
+                  <div className="bg-indigo-50 p-2.5 rounded-xl text-indigo-600 border border-indigo-100 flex-shrink-0">
                     <Phone size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white text-sm">Admissions Hotline (Call / WhatsApp)</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">Reach our desk immediately: <a href="tel:+917339329264" className="text-indigo-400 font-bold hover:underline">+91 73393 29264</a></p>
+                    <h4 className="font-bold text-slate-900 text-sm">Admissions Hotline (Call / WhatsApp)</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">Reach our desk immediately: <a href="tel:+917339329264" className="text-indigo-600 font-bold hover:underline">+91 73393 29264</a></p>
                   </div>
                 </div>
               </div>
@@ -474,9 +505,9 @@ export default function AdmissionsHub() {
 
             {/* Right Column: Registration Form */}
             <div className="lg:col-span-6">
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl relative">
-                <h3 className="text-xl font-bold mb-1">Admissions Enquiry</h3>
-                <p className="text-xs text-slate-400 mb-6">Submit details to request brochures and scholarship eligibility guidelines.</p>
+              <div className="bg-slate-50 border border-slate-200/80 rounded-3xl p-6 md:p-8 shadow-xl relative">
+                <h3 className="text-xl font-bold mb-1 text-slate-900">Admissions Enquiry</h3>
+                <p className="text-xs text-slate-550 mb-6">Submit details to request brochures and scholarship eligibility guidelines.</p>
 
                 {errorMsg && (
                   <div className="p-3 mb-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl">
@@ -499,14 +530,14 @@ export default function AdmissionsHub() {
 
                   {/* Name */}
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="fullName">
+                    <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5" htmlFor="fullName">
                       Full Name *
                     </label>
                     <input
                       id="fullName"
                       type="text"
                       placeholder="e.g. Vikram Kumar"
-                      className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                      className="w-full bg-white border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 transition-all outline-none"
                       {...register("fullName")}
                     />
                     {errors.fullName && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.fullName.message}</p>}
@@ -515,14 +546,14 @@ export default function AdmissionsHub() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Mobile */}
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="phone">
+                      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5" htmlFor="phone">
                         Mobile Number *
                       </label>
                       <input
                         id="phone"
                         type="tel"
                         placeholder="10-digit number"
-                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                        className="w-full bg-white border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 transition-all outline-none"
                         {...register("phone")}
                       />
                       {errors.phone && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.phone.message}</p>}
@@ -530,14 +561,14 @@ export default function AdmissionsHub() {
 
                     {/* Email */}
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="email">
+                      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5" htmlFor="email">
                         Email Address *
                       </label>
                       <input
                         id="email"
                         type="email"
                         placeholder="name@example.com"
-                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                        className="w-full bg-white border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 transition-all outline-none"
                         {...register("email")}
                       />
                       {errors.email && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.email.message}</p>}
@@ -547,14 +578,14 @@ export default function AdmissionsHub() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* State / City */}
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="stateCity">
+                      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5" htmlFor="stateCity">
                         City & State *
                       </label>
                       <input
                         id="stateCity"
                         type="text"
                         placeholder="e.g. Patna, Bihar"
-                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 transition-all outline-none"
+                        className="w-full bg-white border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 transition-all outline-none"
                         {...register("stateCity")}
                       />
                       {errors.stateCity && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.stateCity.message}</p>}
@@ -562,19 +593,19 @@ export default function AdmissionsHub() {
 
                     {/* College of Interest */}
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5" htmlFor="targetUniversity">
+                      <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5" htmlFor="targetUniversity">
                         College of Interest *
                       </label>
                       <select
                         id="targetUniversity"
-                        className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-white transition-all outline-none"
+                        className="w-full bg-white border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all outline-none"
                         {...register("targetUniversity")}
                       >
-                        <option value="" disabled className="bg-slate-900 text-slate-500">Select University</option>
-                        <option value="Hindustan University" className="bg-slate-900 text-white">Hindustan University (HITS)</option>
-                        <option value="Saveetha University" className="bg-slate-900 text-white">Saveetha University</option>
-                        <option value="Chettinad Institute of Technology" className="bg-slate-900 text-white">Chettinad Institute of Tech (CIT)</option>
-                        <option value="Aarupadai Veedu Institute of Technology" className="bg-slate-900 text-white">AVIT (Vinayaka Missions)</option>
+                        <option value="" disabled className="bg-white text-slate-500">Select University</option>
+                        <option value="Hindustan University" className="bg-white text-slate-800">Hindustan University (HITS)</option>
+                        <option value="Saveetha University" className="bg-white text-slate-800">Saveetha University</option>
+                        <option value="Chettinad Institute of Technology" className="bg-white text-slate-800">Chettinad Institute of Tech (CIT)</option>
+                        <option value="Aarupadai Veedu Institute of Technology" className="bg-white text-slate-800">AVIT (Vinayaka Missions)</option>
                       </select>
                       {errors.targetUniversity && <p className="text-[10px] text-red-400 font-medium mt-1">{errors.targetUniversity.message}</p>}
                     </div>
@@ -606,11 +637,11 @@ export default function AdmissionsHub() {
       </section>
 
       {/* ─── SECTION 5: HELPLINE SHORTCUT ─── */}
-      <section id="helpline" className="py-16 bg-slate-900 border-t border-slate-950 text-center relative">
+      <section id="helpline" className="py-16 bg-slate-50 border-t border-slate-100 text-center relative">
         <div className="max-w-4xl mx-auto px-4">
-          <GraduationCap className="h-10 w-10 text-indigo-400 mx-auto mb-4" />
-          <h3 className="text-2xl font-bold mb-3">Speak to an admissions advisor immediately</h3>
-          <p className="text-slate-400 text-sm max-w-lg mx-auto mb-8 leading-relaxed">
+          <GraduationCap className="h-10 w-10 text-indigo-600 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold mb-3 text-slate-900">Speak to an admissions advisor immediately</h3>
+          <p className="text-slate-600 text-sm max-w-lg mx-auto mb-8 leading-relaxed">
             Need urgent guidance? Tap the button to initiate a quick inquiry over WhatsApp, or contact our direct voice desk.
           </p>
 
@@ -626,9 +657,9 @@ export default function AdmissionsHub() {
             </a>
             <a
               href="tel:+917339329264"
-              className="bg-slate-950 hover:bg-slate-900 text-white font-bold py-3.5 px-7 rounded-2xl shadow-md border border-slate-800 transition-all text-sm flex items-center gap-2"
+              className="bg-white hover:bg-slate-50 text-slate-800 font-bold py-3.5 px-7 rounded-2xl shadow-md border border-slate-200 transition-all text-sm flex items-center gap-2"
             >
-              <Phone size={18} className="text-indigo-400" />
+              <Phone size={18} className="text-indigo-600" />
               <span>Call +91 73393 29264</span>
             </a>
           </div>
