@@ -101,7 +101,7 @@ export default function AdmissionsHub() {
     {
       id: "saveetha",
       name: "Saveetha University (Engineering & Tech)",
-      shortName: "SEC (Saveetha Engineering College)",
+      shortName: "SIMATS  (Saveetha University)",
       logo: "/saveethalogo.png",
       bgImage: "/saveetha_campus.png",
       accreditation: "NAAC A++ Grade",
@@ -204,7 +204,7 @@ export default function AdmissionsHub() {
         {/* Abstract Background Elements */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.08),rgba(255,255,255,0))]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-50" />
-        
+
         {/* Glow Spheres */}
         <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -484,7 +484,7 @@ export default function AdmissionsHub() {
       <section id="enquiry" className="py-24 bg-white relative border-t border-slate-100 flex items-center min-h-[80vh]">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Left Column: Direct info panel */}
             <div className="lg:col-span-6 flex flex-col gap-6 text-left">
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
